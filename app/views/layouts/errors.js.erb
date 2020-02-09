@@ -1,0 +1,6 @@
+$('.alert').html("<%= j render partial: "layouts/errors", locals: { resource: resource } %>")
+$('.alert').fadeIn()
+setTimeout(flashMessage, 10000)
+function flashMessage(){
+  $('.alert').fadeOut()
+}

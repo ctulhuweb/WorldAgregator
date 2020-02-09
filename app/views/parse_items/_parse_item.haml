@@ -1,0 +1,16 @@
+- status = parse_item.status == "new" ? "warning" : "primary"
+.parse-item.card.mb-4.box-shadow.h-250{ data: { id: parse_item.id }}
+  .card-header.d-flex.justify-content-between.font-weight-bold
+    = parse_item.site.name
+    %strong.parse-item__status{class: "text-#{status}"}
+      = parse_item.status.capitalize
+  .card-body
+    - parse_item.data.each do |k, v|
+      %ul.list-group.list-group-flush
+        %li.list-group-item
+          = "#{content_tag("strong", k)}: #{v}".html_safe
+  .card-footer.d-flex.justify-content-between
+    %small.text-muted
+      = time_ago_in_words(parse_item.created_at)
+    =# content_tag("div", "Read more", class: "read-more-js")
+      

@@ -1,0 +1,32 @@
+%table.table.mt-3
+  %thead
+    %tr
+      %th
+        Name
+      %th
+        Url
+      %th
+        Actions
+      %th
+      %th
+      %th
+        Active
+  %tbody
+    - @sites.each_with_index do |site|
+      %tr
+        %td
+          = site.name
+        %td
+          = site.url
+        %td
+          = link_to "Setting", site_path(site), class: "btn btn-secondary"
+        %td
+          = link_to "Edit", edit_site_path(site), class: "btn btn-secondary"
+        %td
+          = link_to "Delete", site_path(site), method: :delete, class: "btn btn-danger delete-site", remote: true
+        %td
+          - if site.active?
+            = icon("fas", "check text-success")
+          - else
+            = icon("fas", "ban text-danger")
+= link_to "Add Site", new_site_path, class: "btn btn-primary"

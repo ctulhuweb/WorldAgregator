@@ -1,0 +1,32 @@
+.header.container-fluid.box-shadow.border-bottom
+  %nav.row.p-2.navbar-expand-lg.navbar-expand-md.navbar.navbar-light.bg-light.align-middle
+    %h5.navbar-brand
+      World Agregetor
+    %button.navbar-toggler{"aria-controls" => "navbarToggler", "aria-expanded" => "false", "aria-label" => "Toggle navigation", "data-target" => "#navbarToggler", "data-toggle" => "collapse", :type => "button"}
+      %span.navbar-toggler-icon
+    #navbarToggler.collapse.navbar-collapse
+      - if current_page?(root_path) 
+        = form_with(url: search_path(format: :json), method: :post, class: "search-js") do |f|
+          = f.text_field :search
+          = f.submit "Search"
+      %ul.navbar-nav.my-0.ml-md-auto.mr-2
+        %li.nav-item.active
+          = link_to "Sites", sites_path, class: "nav-link"
+        %li.nav-item
+          = link_to "About", "#", class: "nav-link"
+        %li.nav-item
+        %li.nav-item
+      - if user_signed_in?
+        // Popover notifications
+        - icon_color = current_user.has_new_items? ? "text-warning" : "text-secondary"
+        - data_content = "New items: #{current_user.new_items.count}"
+        - options = {"data-toggle" => "popover","data-placement" => "bottom", "data-content" => data_content, :class => "#{icon_color} nav-link fa-lg",}
+        = icon("far", "bell", options)
+        // Popover profile
+        - title_block = content_tag("div", current_user.email, class: "text-center")
+        - content_block = content_tag("div", link_to("Sign out", destroy_user_session_path, class: "btn btn-outline-primary btn-sign-out-js", method: :delete), class: "text-center")       
+        - options = {"data-content" => "#{content_block}", "data-toggle" => "popover","data-placement" => "bottom", :title => "#{title_block}", :class => "rounded-circle", :size => "40x40"} 
+        = image_tag("avatar-undefined.jpg", options)
+      - else
+        = link_to "Sign in", new_user_session_path, class: "nav-link btn btn-outline-primary"
+    

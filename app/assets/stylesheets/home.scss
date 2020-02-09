@@ -1,0 +1,27 @@
+.alert{
+  padding: 0;
+  border: 0;
+}
+
+.btn-up{
+  position: fixed;
+  display: none;
+  bottom: 1.5rem;
+  right: 3rem;
+}
+
+.footer{
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 60px;
+  line-height: 60px;
+}
+
+html{
+  position: relative;
+  min-height: 100%;
+}
+body{
+  margin-bottom: 60px;
+}

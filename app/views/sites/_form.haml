@@ -1,0 +1,15 @@
+= form_with model: @site do |f|
+  .form-group
+    = f.text_field :name, class: "form-control", placeholder: "Name"
+  .form-group
+    = f.text_field :url, class: "form-control", placeholder: "Url"
+  .form-group
+    = f.text_field :main_selector, class: "form-control", placeholder: "Block selector"
+  /
+    = fields_for :parse_settings do |ff|
+      .form-group
+        = f.text_field :name, class: "form-control"
+      .form-group
+        = f.text_field :selector, class: "form-control"
+  .form-group
+    = f.submit "Submit", class: "btn btn-primary"
