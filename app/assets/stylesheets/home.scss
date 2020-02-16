@@ -25,3 +25,19 @@ html{
 body{
   margin-bottom: 60px;
 }
+
+.parse-item{
+  .card-body{
+    position: relative;
+  }
+}
+
+.fa-star{
+  position: absolute;
+  top: 5px;
+  right: 5px;
+
+  &:hover{
+    color: #ffc107 !important;
+  }
+}

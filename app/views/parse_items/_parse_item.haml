@@ -5,6 +5,7 @@
     %strong.parse-item__status{class: "text-#{status}"}
       = parse_item.status.capitalize
   .card-body
+    = icon('far', 'star text-secondary star-js')
     - parse_item.data.each do |k, v|
       %ul.list-group.list-group-flush
         %li.list-group-item
@@ -12,5 +13,6 @@
   .card-footer.d-flex.justify-content-between
     %small.text-muted
       = time_ago_in_words(parse_item.created_at)
+    -# #like_button_container
     =# content_tag("div", "Read more", class: "read-more-js")
       

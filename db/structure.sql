@@ -93,7 +93,8 @@ CREATE TABLE public.parse_items (
     site_id bigint,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
-    status public.parse_item_status
+    status public.parse_item_status,
+    chosen boolean DEFAULT false
 );
 
 
@@ -330,6 +331,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200113044530'),
 ('20200114053016'),
 ('20200114053709'),
-('20200131101023');
+('20200131101023'),
+('20200214055720');
 
 

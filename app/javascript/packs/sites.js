@@ -109,11 +109,24 @@ function initSearchForm(){
   })
 }
 
+function initStarEvent(){
+  $('.star-js').click((e) => {
+    pi = $(e.target).closest('.parse-item');
+    parseItemId = $(pi).data("id");
+    $.ajax({
+      method: 'POST',
+      url: `parse_items/${parseItemId}/chosen`,
+      
+    });
+  });
+}
+
 $(document).ready(function(){ 
-  initEventParseItem()
-  initEventButtonUp()
-  initPopper()
-  initTestParse()
-  initSearchForm()
+  initEventParseItem();
+  initEventButtonUp();
+  initPopper();
+  initTestParse();
+  initSearchForm();
+  initStarEvent();
   //initReadMoreLink()
 });

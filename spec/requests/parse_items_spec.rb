@@ -14,4 +14,11 @@ RSpec.describe "ParseItems", type: :request do
     }.to change { @site.parse_items.first.status }
     expect(response).to have_http_status(200)
   end
+
+  it "change chosen status of parse item" do
+    expect {
+      post chosen_parse_item_path(@site.parse_items.first), params: {format: :json}
+    }.to change { @site.parse_items.first.chosen}
+    expect(response).to have_http_status(200)
+  end
 end
