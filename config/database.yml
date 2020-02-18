@@ -5,7 +5,7 @@ default: &default
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   host: localhost
-  username: <%= Rails.application.credentials[Rails.env.to_sym][:base_user] %>
+  username: <%= Rails.application.credentials[Rails.env.to_sym][:username] %>
   password: <%= Rails.application.credentials[Rails.env.to_sym][:password] %>
 
 development:
@@ -69,5 +69,3 @@ test:
 production:
   <<: *default
   database: WorldAgregator_production
-  username: WorldAgregator
-  password: <%= ENV['WORLDAGREGATOR_DATABASE_PASSWORD'] %>
