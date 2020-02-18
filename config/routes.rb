@@ -12,6 +12,10 @@ Rails.application.routes.draw do
   resources :parse_items, only: [] do
     member do 
       post :change_status
+      post :chosen
+    end
+    collection do
+      get :tagged
     end
   end
 

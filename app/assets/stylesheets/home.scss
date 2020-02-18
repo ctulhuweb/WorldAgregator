@@ -36,8 +36,13 @@ body{
   position: absolute;
   top: 5px;
   right: 5px;
-
+  opacity: 0.6;
   &:hover{
+    color: #ffc107 !important;
+    opacity: 1;
+  }
+  &_chosen{
+    opacity: 1;
     color: #ffc107 !important;
   }
 }

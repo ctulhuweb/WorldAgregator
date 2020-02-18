@@ -116,7 +116,18 @@ function initStarEvent(){
     $.ajax({
       method: 'POST',
       url: `parse_items/${parseItemId}/chosen`,
-      
+      dataType: 'json',
+      success: function(data){
+        parse_item = $(`.parse-item[data-id=${data.id}] .parse-item__status`);
+        star = $(parse_item).find('.star-js');
+        console.log(data)
+        if (data.chosen) {
+          star.addClass('.star-js_chosen');
+        }
+        else {
+          star.removeClass('.star-js_chosen');
+        }
+      }
     });
   });
 }

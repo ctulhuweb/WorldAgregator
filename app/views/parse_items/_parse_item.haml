@@ -5,7 +5,8 @@
     %strong.parse-item__status{class: "text-#{status}"}
       = parse_item.status.capitalize
   .card-body
-    = icon('far', 'star text-secondary star-js')
+    - chosen = parse_item.chosen ? "fa-star_chosen" : ""
+    = icon('fas', "star text-secondary star-js #{chosen}")
     - parse_item.data.each do |k, v|
       %ul.list-group.list-group-flush
         %li.list-group-item
