@@ -42,3 +42,4 @@ append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/syst
 # set :ssh_options, verify_host_key: :secure
 
 set :default_env, { path: "~/.rbenv/shims:~/.rbenv/bin:$PATH" }
+set :rbenv_ruby, '2.7.0'
