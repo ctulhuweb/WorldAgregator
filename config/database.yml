@@ -69,5 +69,4 @@ test:
 production:
   <<: *default
   database: WorldAgregator_production
-  #secret_key_base: <%= Rails.application.credentials[Rails.env.to_sym][:secret_key_base] %>
-  secret_key_base: b31b40da57a5ce6dcc4bbe04aae6d4f2d635ccaae0e4c8e668d3529e7fe0d89275c70c4f33782626e0cf55420ad9c4227f44ccdb851e911c65a358e3e9543fb5
+  secret_key_base: <%= Rails.application.credentials[Rails.env.to_sym][:secret_key_base] %>
