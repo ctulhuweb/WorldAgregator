@@ -5,3 +5,8 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+tariffs = Tariff.create([
+   {title: "Free", count_sites: 3, parse_interval: 10}, 
+   {title: "Pro", count_sites: 10, parse_interval: 5},
+   {title: "Observer", count_sites: 20, parse_interval: 3}])

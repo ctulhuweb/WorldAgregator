@@ -1,5 +1,8 @@
 @import "devise";
 @import "font-awesome-sprockets";
 @import "font-awesome";
-@import "bootstrap";
+@import 'bootstrap-custom';
 @import "home";
+@import "tariffs";
+@import "stripe_elements";
+@import "payment_sessions";

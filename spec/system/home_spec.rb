@@ -50,4 +50,19 @@ RSpec.describe 'Home', type: :system do
       end
     end
   end
+
+  describe "Header" do
+    before(:each) do 
+      sign_in user
+    end
+
+    it "Nav links become active when user moves on pages" do
+      visit sites_path
+      expect(page.find(".active")).to have_content('Sites')
+      visit tariffs_path
+      expect(page.find(".active")).to have_content('Tariffs')
+      visit root_path
+      expect(page.find(".active")).to have_content('Home')
+    end
+  end
 end

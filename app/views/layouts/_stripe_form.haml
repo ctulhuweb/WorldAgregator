@@ -1,0 +1,9 @@
+%form#payment-form{:action => "/charge", :method => "post"}
+  .form-card
+    %label{:for => "card-element"}
+      Credit or debit card
+    #card-element
+      / A Stripe Element will be inserted here.
+    / Used to display form errors.
+    #card-errors{:role => "alert"}
+  %button.btn.btn-primary Submit Payment

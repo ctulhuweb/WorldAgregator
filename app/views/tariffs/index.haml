@@ -1,0 +1,8 @@
+.page-title.text-center.px-3.py-3.pt-md-5.pb-md-4.mx-auto
+  %h3.display-4
+    Tariffs
+  %p.lead
+    Quickly build an effective pricing table for your potential customers with this Bootstrap example. It's built with default Bootstrap components and utilities with little customization.
+.tariffs.card-deck.mb-3.text-center
+  - @tariffs.each do |t|
+    = render partial: "tariff", locals: { t: t }

@@ -1,0 +1,13 @@
+.card.my-2
+  .card-header
+    = site.name
+  %ul.list-group.list-group-flush
+    %li.list-group-item
+      = "Url: #{site.url}"
+    %li.list-group-item
+      .card-status.d-inline
+        = "Status: #{site.active? ? 'Active' : 'Not active'}"
+  .card-footer
+    = form_with model: Site, url: change_status_site_path(site), class: "d-inline site-status-js" do |f|
+      = f.hidden_field :active, value: !site.active?
+      = f.submit "#{site.active? ? "Disable" : "Enable"}", class: "btn btn-primary"

@@ -59,10 +59,20 @@ class SitesController < ApplicationController
     end
   end
 
+  def change_status
+    @site = Site.find(params[:id])
+    if @site.update_attributes(site_params) 
+      respond_to do |format|
+        format.js {
+          render partial: "card-info-update", locals: { site: @site }
+        }
+      end
+    end
+  end
   private
 
   def site_params
-    params.require(:site).permit(:name, :url, :main_selector)
+    params.require(:site).permit(:name, :url, :main_selector, :active)
     #params.require(:site).permit(:name, :url, parse_settings_attributes: [:id, :name, :selector])
   end
 end

@@ -18,7 +18,6 @@ class Parser
     end
 
     def get_data(site)
-      return unless site.active?
       doc = Nokogiri::HTML(open(site.url)) rescue return
       items = doc.css(site.main_selector).map do |b|
         fetch(b, site.parse_fields)

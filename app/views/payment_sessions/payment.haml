@@ -1,0 +1,12 @@
+.row
+  .col-6.offset-3
+    .plan-details
+      %ul
+        Plan details:
+        %li
+          count sites 3
+        %li
+          parse interval 10min
+        %li
+          price $5 /month
+    = render "layouts/stripe_form"

@@ -96,7 +96,6 @@ function initReadMoreLink(){
 function initTestParse(){
   $('.test-parse-js').on("ajax:success", function(event){
     [data, status, xhr] = event.detail
-    console.log(data.content)
     $('body').append(data.content)
   })
 }
@@ -132,12 +131,37 @@ function initStarEvent(){
   });
 }
 
-$(document).ready(function(){ 
+function initTariffBuyEvent() {
+  $('.buy-tariff-js').click(function() {
+    const tariffTitle = $(this).data("tariff-title");   
+
+    fetch(`/payment/checkout_session?tariff_title=${tariffTitle}`, {
+      headers: {
+        'Accept': "application/json",
+        'Content-Type': "application/json"
+      }
+    })
+    .then((response) => {
+      response.json().then((data) => {
+        console.log(data.ch_session.id);
+        var stripe = Stripe('pk_test_27AjUighaL0Es18xRpHA57uD00e3Tt21ra');
+        stripe.redirectToCheckout({
+          sessionId: data.ch_session.id
+        }).then(function (result) {
+          console.log(result.error.message);
+        });
+      });
+    });
+  });
+}
+
+$(document).ready(function(){
   initEventParseItem();
   initEventButtonUp();
   initPopper();
   initTestParse();
   initSearchForm();
   initStarEvent();
-  //initReadMoreLink()
+  initTariffBuyEvent();
+  // initSubmitStripe();
 });

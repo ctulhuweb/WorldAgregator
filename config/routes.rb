@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     resources :parse_fields
     member do
       post :test_parse
+      post :change_status
     end
   end
 
@@ -18,6 +19,14 @@ Rails.application.routes.draw do
       get :tagged
     end
   end
+
+  resources :tariffs
+  get "/payment/test", to: "payment_sessions#test"
+  get "/payment", to: "payment_sessions#payment"
+  get "/payment_sessions/success", to: "payment_sessions#success"
+  get "/payment_sessions/cancel", to: "payment_sessions#cancel"
+  get "/payment/checkout_session", to: "payment_sessions#checkout_session"
+
 
   require 'sidekiq/web'
   mount Sidekiq::Web => '/sidekiq'

@@ -1,0 +1,16 @@
+.tariff.card.mb-4.box-shadow
+  .card-header
+    %h4.my-0.font-weight-normal
+      = t.title
+  .card-body
+    %h1.card-title.pricing-card-title
+      = "$#{t.price.to_s} "
+      %small.text-muted
+        = "/ month"
+    %ul.list-unstyled.mt-3.mb-4
+      %li
+        = "#{t.count_sites} sites included"
+      %li  
+        = "#{t.parse_interval} min check time"
+    %button.btn.btn-lg.btn-block.btn-outline-primary.buy-tariff-js{data: { "tariff-title": "#{t.title}" }}
+      Sign up for free

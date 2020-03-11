@@ -24,6 +24,17 @@ COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
 --
+-- Name: order_status; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.order_status AS ENUM (
+    'wait',
+    'cancel',
+    'success'
+);
+
+
+--
 -- Name: parse_item_status; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -48,6 +59,40 @@ CREATE TABLE public.ar_internal_metadata (
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL
 );
+
+
+--
+-- Name: orders; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.orders (
+    id bigint NOT NULL,
+    user_id bigint,
+    tariff_id bigint,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
+    status public.order_status,
+    checkout_session_id character varying
+);
+
+
+--
+-- Name: orders_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.orders_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: orders_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.orders_id_seq OWNED BY public.orders.id;
 
 
 --
@@ -231,6 +276,42 @@ ALTER SEQUENCE public.tags_id_seq OWNED BY public.tags.id;
 
 
 --
+-- Name: tariffs; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.tariffs (
+    id bigint NOT NULL,
+    title character varying,
+    count_sites integer DEFAULT 0,
+    parse_interval integer DEFAULT 0,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
+    price_cents integer DEFAULT 0 NOT NULL,
+    price_currency character varying DEFAULT 'USD'::character varying NOT NULL,
+    active boolean DEFAULT false
+);
+
+
+--
+-- Name: tariffs_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.tariffs_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: tariffs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.tariffs_id_seq OWNED BY public.tariffs.id;
+
+
+--
 -- Name: users; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -263,6 +344,13 @@ CREATE SEQUENCE public.users_id_seq
 --
 
 ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
+
+
+--
+-- Name: orders id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.orders ALTER COLUMN id SET DEFAULT nextval('public.orders_id_seq'::regclass);
 
 
 --
@@ -301,6 +389,13 @@ ALTER TABLE ONLY public.tags ALTER COLUMN id SET DEFAULT nextval('public.tags_id
 
 
 --
+-- Name: tariffs id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.tariffs ALTER COLUMN id SET DEFAULT nextval('public.tariffs_id_seq'::regclass);
+
+
+--
 -- Name: users id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -313,6 +408,14 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 
 ALTER TABLE ONLY public.ar_internal_metadata
     ADD CONSTRAINT ar_internal_metadata_pkey PRIMARY KEY (key);
+
+
+--
+-- Name: orders orders_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.orders
+    ADD CONSTRAINT orders_pkey PRIMARY KEY (id);
 
 
 --
@@ -364,11 +467,33 @@ ALTER TABLE ONLY public.tags
 
 
 --
+-- Name: tariffs tariffs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.tariffs
+    ADD CONSTRAINT tariffs_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.users
     ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: index_orders_on_tariff_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_orders_on_tariff_id ON public.orders USING btree (tariff_id);
+
+
+--
+-- Name: index_orders_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_orders_on_user_id ON public.orders USING btree (user_id);
 
 
 --
@@ -515,6 +640,13 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200217182761'),
 ('20200217182762'),
 ('20200217182763'),
-('20200217182764');
+('20200217182764'),
+('20200305074904'),
+('20200305090834'),
+('20200306060528'),
+('20200306064006'),
+('20200308094446'),
+('20200310101940'),
+('20200310102608');
 
 

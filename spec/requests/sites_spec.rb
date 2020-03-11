@@ -22,7 +22,7 @@ RSpec.describe "Sites manegement", type: :request do
   it "show site instance page" do
     site = create(:site)
     get site_path(site)
-    expect(response.body).to include("Name: #{site.name}")
+    expect(response.body).to include(site.name)
   end
 
   it "destroy site" do
@@ -50,5 +50,16 @@ RSpec.describe "Sites manegement", type: :request do
     site = create(:site, user: @user)
     post test_parse_site_path(site), params: { format: :json }
     expect(response.status).to eq(200) 
+  end
+
+  describe "#show" do
+    before(:each) do
+      @site = create(:site, user: @user)
+    end
+    it "change status" do
+      expect {
+        post change_status_site_path(@site), params: { site: { active: true }, format: :js}
+      }.to change { @site.reload.active }
+    end
   end
 end
