@@ -288,7 +288,8 @@ CREATE TABLE public.tariffs (
     updated_at timestamp(6) without time zone NOT NULL,
     price_cents integer DEFAULT 0 NOT NULL,
     price_currency character varying DEFAULT 'USD'::character varying NOT NULL,
-    active boolean DEFAULT false
+    active boolean DEFAULT false,
+    plan_stripe_id character varying
 );
 
 
@@ -323,7 +324,8 @@ CREATE TABLE public.users (
     reset_password_sent_at timestamp without time zone,
     remember_created_at timestamp without time zone,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    admin boolean DEFAULT false
 );
 
 
@@ -647,6 +649,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200306064006'),
 ('20200308094446'),
 ('20200310101940'),
-('20200310102608');
+('20200310102608'),
+('20200311042325'),
+('20200313092424');
 
 

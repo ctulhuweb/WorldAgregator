@@ -1,5 +1,5 @@
-%table.table.mt-3
-  %thead
+%table.table.table-hover.mt-4
+  %thead.thead-light
     %tr
       %th
         Name
@@ -7,8 +7,6 @@
         Url
       %th
         Actions
-      %th
-      %th
       %th
         Active
   %tbody
@@ -20,9 +18,7 @@
           = site.url
         %td
           = link_to "Setting", site_path(site), class: "btn btn-secondary"
-        %td
           = link_to "Edit", edit_site_path(site), class: "btn btn-secondary"
-        %td
           = link_to "Delete", site_path(site), method: :delete, class: "btn btn-danger delete-site", remote: true
         %td
           - if site.active?

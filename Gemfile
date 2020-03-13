@@ -23,6 +23,7 @@ gem 'webpacker', '~> 4.0'
 gem 'whenever', require: false
 gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.7'
+gem 'rails_admin', '~> 2.0'
 gem 'redis', '~> 4.0'
 gem 'redis-rails'
 # Use Active Model has_secure_password

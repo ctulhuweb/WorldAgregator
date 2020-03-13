@@ -1,8 +1,8 @@
 .row
   = render partial: "card-info", locals: { site: @site }
 .row
-  %table.table
-    %thead
+  %table.table.mt-3.table-hover
+    %thead.thead-light
       %tr
         %th
           Name
@@ -10,7 +10,6 @@
           Selector
         %th
           Actions
-        %th
     %tbody
       - @site.parse_fields.each do |pf|
         %tr
@@ -20,7 +19,6 @@
             = pf.selector
           %td
             = link_to "Edit", edit_site_parse_field_path(@site, pf), class: "btn btn-secondary"
-          %td
             = link_to "Delete", site_parse_field_path(@site, pf), method: :delete, remote: true, class: "btn btn-danger delete-parse-field"
 
 .row

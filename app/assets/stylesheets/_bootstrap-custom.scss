@@ -6,49 +6,70 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 
- @import "bootstrap/functions";
- @import "bootstrap/variables";
- @import "bootstrap/mixins";
- @import "bootstrap/root";
- @import "bootstrap/reboot";
- @import "bootstrap/type";
- @import "bootstrap/images";
- @import "bootstrap/code";
- @import "bootstrap/grid";
- @import "bootstrap/tables";
- @import "bootstrap/forms";
- @import "bootstrap/buttons";
- @import "bootstrap/transitions";
- @import "bootstrap/dropdown";
- @import "bootstrap/button-group";
- @import "bootstrap/input-group";
- @import "bootstrap/custom-forms";
- @import "bootstrap/nav";
- @import "bootstrap/navbar";
- @import "bootstrap/card";
- @import "bootstrap/breadcrumb";
- @import "bootstrap/pagination";
- @import "bootstrap/badge";
- @import "bootstrap/jumbotron";
- @import "bootstrap/alert";
- @import "bootstrap/progress";
- @import "bootstrap/media";
- @import "bootstrap/list-group";
- @import "bootstrap/close";
- @import "bootstrap/toasts";
- @import "bootstrap/modal";
- @import "bootstrap/tooltip";
- @import "bootstrap/popover";
- @import "bootstrap/carousel";
- @import "bootstrap/spinners";
- @import "bootstrap/utilities";
- @import "bootstrap/print";
 
- .list-group-flush .list-group-item:last-child{
+ $theme-colors: (
+  "primary":    rgb(65,196,211),
+  "secondary":  #99a9b5,
+  "success":    #64b65e,
+  // "info":       ..,
+  "warning":    rgb(254,197,60),
+  "danger":     rgb(243,70,54),
+  // "light":      ..,
+  "dark":       #393d50
+);
+
+
+@import "bootstrap/functions";
+@import "bootstrap/variables";
+@import "bootstrap/mixins";
+@import "bootstrap/root";
+@import "bootstrap/reboot";
+@import "bootstrap/type";
+@import "bootstrap/images";
+@import "bootstrap/code";
+@import "bootstrap/grid";
+@import "bootstrap/tables";
+@import "bootstrap/forms";
+@import "bootstrap/buttons";
+@import "bootstrap/transitions";
+@import "bootstrap/dropdown";
+@import "bootstrap/button-group";
+@import "bootstrap/input-group";
+@import "bootstrap/custom-forms";
+@import "bootstrap/nav";
+@import "bootstrap/navbar";
+@import "bootstrap/card";
+@import "bootstrap/breadcrumb";
+@import "bootstrap/pagination";
+@import "bootstrap/badge";
+@import "bootstrap/jumbotron";
+@import "bootstrap/alert";
+@import "bootstrap/progress";
+@import "bootstrap/media";
+@import "bootstrap/list-group";
+@import "bootstrap/close";
+@import "bootstrap/toasts";
+@import "bootstrap/modal";
+@import "bootstrap/tooltip";
+@import "bootstrap/popover";
+@import "bootstrap/carousel";
+@import "bootstrap/spinners";
+@import "bootstrap/utilities";
+@import "bootstrap/print";
+
+.list-group-flush .list-group-item:last-child{
   border-bottom: none !important;
- }
+}
 
- .navbar-brand{
+.navbar-brand{
   margin-top: 5px;
   margin-left: 10px;
- }
+}
+
+.table td{
+  vertical-align: middle;
+}
+
+.navbar-collapse{
+  margin-right: 10px;
+}
