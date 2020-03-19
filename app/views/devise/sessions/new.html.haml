@@ -1,4 +1,4 @@
-= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "form-signin mt-3" }) do |f|
+= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "form-signin mt-5 pt-2" }) do |f|
   %h3.mb-3.text-center Sign in
   .form-group
     = f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control", placeholder: "Email"

@@ -70,7 +70,7 @@ function initEventButtonUp(){
 function initPopper(){
   options = {
     html: true,
-  }
+  }  
   $('[data-toggle="popover"]').popover(options)
   $('[data-toggle="popover"]').on('shown.bs.popover', function () {
     $('.btn-sign-out-js').attr({"data-method": "delete"})
@@ -155,7 +155,7 @@ function initTariffBuyEvent() {
   });
 }
 
-$(document).ready(function(){
+initEvents = function() {
   initEventParseItem();
   initEventButtonUp();
   initPopper();
@@ -164,4 +164,13 @@ $(document).ready(function(){
   initStarEvent();
   initTariffBuyEvent();
   // initSubmitStripe();
-});
+
+  setTimeout(() => {
+    $('.alert').fadeOut("slow");
+  }, 4000);
+}
+
+$(document).ready(initEvents);
+$(document).on("turbolinks:load", initEvents);
+
+

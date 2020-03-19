@@ -14,7 +14,7 @@ RailsAdmin.config do |config|
     end
   end
 
-  RailsAdmin::Config::Actions.register(ImportPlan)
+  RailsAdmin::Config::Actions.register(StripePlan)
   ## == CancanCan ==
   # config.authorize_with :cancancan
 
@@ -40,6 +40,6 @@ RailsAdmin.config do |config|
     edit
     delete
     show_in_app
-    import_plan
+    stripe_plan
   end
 end

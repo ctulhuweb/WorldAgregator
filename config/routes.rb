@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   devise_for :users
   root to: "home#index"
   post "search", to: "home#search"
@@ -31,4 +30,11 @@ Rails.application.routes.draw do
 
   require 'sidekiq/web'
   mount Sidekiq::Web => '/sidekiq'
+
+  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
+  namespace :rails_admin do
+    get "/tariff/:id/stripe/add", to: "tariffs#add"
+    delete "/tariff/:id/stripe/delete", to: "tariffs#delete"
+    put "/tariff/:id/stripe/update", to: "tariffs#update"
+  end
 end

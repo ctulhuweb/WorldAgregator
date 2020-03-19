@@ -64,5 +64,13 @@ RSpec.describe 'Home', type: :system do
       visit root_path
       expect(page.find(".active")).to have_content('Home')
     end
+
+    # it "Settings in header" do
+    #   visit root_path
+    #   find(".avatar").click
+    #   expect(page).to have_content(user.email)
+    #   expect(page).to have_selector('.btn-profile', text: 'Profile')
+    # end
+
   end
 end

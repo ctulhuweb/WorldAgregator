@@ -1,0 +1,23 @@
+- if @status[:active].present?
+  .stripe-info.alert.alert-info
+    = "Stripe plan id: #{@status[:id]} Active: #{@status[:active]}"
+- elsif @status[:type] == :not
+  .stripe-info.alert.alert-info
+    = @status[:message]
+- elsif @status[:type] == :error
+  .stripe-info.alert.alert-danger
+    = @status[:message]
+.stripe-actions{style: "display: flex",  data: { id: @object.id}}
+  .btn.btn-primary.stripe-add-plan
+    Add Plan
+  -# = form_with(url: "/rails_admin/tariff/#{@object.id}/stripe/update", method: :put, class: "stripe-update-plan") do |f|
+  -#   = f.submit "Update Plan", class: "btn btn-primary"
+  = form_with(url: "/rails_admin/tariff/#{@object.id}/stripe/delete", method: :delete, class: "stripe-delete-plan") do |f|  
+    = f.submit "Delete Plan", class: "btn btn-danger"
+  .btn.btn-info
+    Show in stripe dashboard
+= javascript_pack_tag 'stripe_functions', 'data-turbolinks-track': 'reload'
+:css
+  .stripe-actions .btn {
+    margin-right: 0.5rem;
+  }

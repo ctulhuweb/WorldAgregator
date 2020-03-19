@@ -1,0 +1,7 @@
+en:
+  admin:
+    actions:
+      stripe_plan:
+        title: "Stripe"
+        menu: "Stripe"
+        breadcrumb: "Stripe"
