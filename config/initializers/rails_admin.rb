@@ -8,16 +8,10 @@ RailsAdmin.config do |config|
   end
   config.current_user_method(&:current_user)
 
-  config.authorize_with do |controller| 
-    unless current_user.try(:admin?)
-      redirect_to "/"
-    end
-  end
-
   RailsAdmin::Config::Actions.register(StripePlan)
   ## == CancanCan ==
-  # config.authorize_with :cancancan
-
+  config.authorize_with :cancancan
+  config.parent_controller = 'ApplicationController'
   ## == Pundit ==
   # config.authorize_with :pundit
 

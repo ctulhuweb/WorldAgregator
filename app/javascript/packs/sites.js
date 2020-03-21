@@ -156,10 +156,11 @@ function initTariffBuyEvent() {
 }
 
 function initUpload() {
-  document.querySelector('.custom-file-input').addEventListener("change", function() {
-    this.nextElementSibling.innerText = this.files[0].name;
-    readUrl(this);
-  })
+  if (document.querySelector('.custom-file-input'))
+    document.querySelector('.custom-file-input').addEventListener("change", function() {
+      this.nextElementSibling.innerText = this.files[0].name;
+      readUrl(this);
+    })
 }
 
 function readUrl(input) {
