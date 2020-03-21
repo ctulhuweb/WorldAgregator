@@ -1,15 +1,21 @@
 = form_with model: @site do |f|
   .form-group
-    = f.text_field :name, class: "form-control", placeholder: "Name"
+    .row
+      .col
+        = f.text_field :name, class: "form-control", placeholder: "Name"
+      .col.field__description
+        = "Name for site parse items will be have this tag"
   .form-group
-    = f.text_field :url, class: "form-control", placeholder: "Url"
+    .row
+      .col
+        = f.text_field :url, class: "form-control", placeholder: "Url"
+      .col.field__description
+        = "Url it where places blocks/elements that you want parse"
   .form-group
-    = f.text_field :main_selector, class: "form-control", placeholder: "Block selector"
-  /
-    = fields_for :parse_settings do |ff|
-      .form-group
-        = f.text_field :name, class: "form-control"
-      .form-group
-        = f.text_field :selector, class: "form-control"
+    .row
+      .col
+        = f.text_field :main_selector, class: "form-control", placeholder: "Block selector"
+      .col.field__description
+        = "Block selector it css element for find every parse block/element"
   .form-group
-    = f.submit "Submit", class: "btn btn-primary"
+    = f.submit "Save", class: "btn btn-primary"

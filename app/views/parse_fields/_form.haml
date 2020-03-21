@@ -1,7 +1,15 @@
 = form_with model: [@site, @parse_field] do |f|
   = f.hidden_field :site_id, value: @site.id
   .form-group
-    = f.text_field :name, placeholder: "Name",class: "form-control"
+    .row
+      .col
+        = f.text_field :name, placeholder: "Name",class: "form-control"
+      .col
+        = "Name for data that will be scraping."
   .form-group
-    = f.text_field :selector, placeholder: "Selector",class: "form-control"
+    .row
+      .col
+        = f.text_field :selector, placeholder: "Selector",class: "form-control"
+      .col
+        = "CSS selector of element that wrap info. Example: .title"
   = f.submit "Submit", class: "btn btn-primary"

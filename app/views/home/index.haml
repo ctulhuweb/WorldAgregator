@@ -1,2 +1,8 @@
-= render partial: "parse_items", locals: { parse_items: @parse_items }
-= render "btn_up"
+- if @parse_items.present?
+  = render partial: "parse_items", locals: { parse_items: @parse_items }
+  = render "btn_up"
+- else
+  .info.text-center.p-5
+    %p.lead.text-muted.mx-auto
+      You don't have web scrappers now. Folow to 
+      = link_to "create your first web scrapper.", new_site_path
