@@ -7,17 +7,8 @@ RSpec.describe User, type: :model do
         @user = build(:user) 
       end
 
-      it "without password" do
-        @user.password = nil
-        @user.valid?
-        expect(@user.errors[:password]).to include("can't be blank")
-      end
-
-      it "without email" do
-        @user.email = nil
-        @user.valid?
-        expect(@user.errors[:email]).to include("can't be blank")
-      end
+      it_behaves_like "a model presence validation for", "name"
+      it_behaves_like "a model presence validation for", "password"
 
       it "with invalid email" do
         @user.email = "invalid.com@"

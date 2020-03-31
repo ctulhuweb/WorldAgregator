@@ -19,11 +19,7 @@ RSpec.describe Tariff, type: :model do
         expect(@tariff.errors[:parse_interval]).to include("must be greater than 0")
       end
 
-      it "with empty title" do
-        @tariff.title = ""
-        @tariff.valid?
-        expect(@tariff.errors[:title]).to include("can't be blank")
-      end
+      it_behaves_like "a model presence validation for", "title"
     end
   end
 
