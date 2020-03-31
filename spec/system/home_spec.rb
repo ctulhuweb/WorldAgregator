@@ -25,10 +25,15 @@ RSpec.describe 'Home', type: :system do
       expect(page).to have_button "Search"
     end
 
-    it "doesn't render on another pages" do
-      visit sites_path
-      expect(page).not_to have_button "Search"
+    it_behaves_like "doesn't a render item on", "Search" do
+      subject { visit sites_path }
     end
+    # it_behaves_like "doesn't a render item on", "tariffs", "Search"
+    
+    # it "doesn't render on another pages" do
+    #   visit sites_path
+    #   expect(page).not_to have_button "Search"
+    # end
 
     context 'with valid parameter' do
       before(:each) do

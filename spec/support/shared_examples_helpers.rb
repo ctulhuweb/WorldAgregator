@@ -13,3 +13,9 @@ RSpec.shared_examples "a model presence validation for" do |attribute_name|
     expect(subject.errors[attribute_name.to_sym]).to include("can't be blank")
   end
 end
+
+RSpec.shared_examples "doesn't a render item on" do |item|
+  it "#{item}" do
+    expect(subject).not_to have_button item
+  end
+end
