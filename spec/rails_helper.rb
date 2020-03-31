@@ -3,6 +3,7 @@ require 'spec_helper'
 require 'vcr'
 require 'support/factory_bot'
 require 'support/vcr_setup'
+require 'support/shared_examples_helpers'
 ENV['RAILS_ENV'] ||= 'test'
 
 require File.expand_path('../config/environment', __dir__)

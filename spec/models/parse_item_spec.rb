@@ -6,17 +6,8 @@ RSpec.describe ParseItem, type: :model do
       @parse_item = build_stubbed(:parse_item)
     end
 
-    it "without a data" do
-      @parse_item.data = {}
-      @parse_item.valid?
-      expect(@parse_item.errors[:data]).to include("can't be blank") 
-    end
-
-    it "without a status" do
-      @parse_item.status = nil
-      @parse_item.valid?
-      expect(@parse_item.errors[:status]).to include("can't be blank")
-    end
+    it_behaves_like "a model presence validation for", "data"  
+    it_behaves_like "a model presence validation for", "status"
 
     it "without a site" do
       @parse_item.site = nil

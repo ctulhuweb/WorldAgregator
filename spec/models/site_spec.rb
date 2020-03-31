@@ -7,28 +7,14 @@ RSpec.describe Site, type: :model do
         @site = build_stubbed(:site)
       end
 
-      it "without a name" do
-        @site.name = nil
-        @site.valid?
-        expect(@site.errors[:name]).to include("can't be blank")
-      end
-
-      it "without a url" do
-        @site.url = nil
-        @site.valid?
-        expect(@site.errors[:url]).to include("can't be blank")
-      end
+      it_behaves_like "a model presence validation for", "name"
+      it_behaves_like "a model presence validation for", "url"
+      it_behaves_like "a model presence validation for", "main_selector"
 
       it "with invalid url" do
         @site.url = "invalid.www.com"
         @site.valid?
         expect(@site.errors[:url]).to include("is invalid")
-      end
-
-      it "without a main selector" do
-        @site.main_selector = nil
-        @site.valid?
-        expect(@site.errors[:main_selector]).to include("can't be blank")
       end
 
       it "without a user" do
