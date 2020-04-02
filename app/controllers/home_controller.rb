@@ -1,15 +1,11 @@
 class HomeController < ApplicationController
   
   def index
-    @parse_items = ParseItem.joins(site: :user)
-                            .where(users: { id: current_user.id })
-                            .sort_by(&:status)
+    @parse_items = UserParseItemsAll.call(current_user)
   end
 
   def search
-    @parse_items = ParseItem.joins(site: :user)
-                            .where(users: { id: current_user.id })
-                            .search(params[:search]).sort_by(&:status)
+    @parse_items = UserParseItemsAll.call(current_user).search(params[:search])
     respond_to do |format|
       format.json {
         render json: { 
