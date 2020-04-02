@@ -177,6 +177,10 @@ function readUrl(input) {
   }
 }
 
+function initDatePicker() {
+  $('#datepicker').datepicker();
+}
+
 initEvents = function() {
   initEventParseItem();
   initEventButtonUp();
@@ -186,6 +190,7 @@ initEvents = function() {
   initStarEvent();
   initTariffBuyEvent();
   initUpload();
+  initDatePicker();
   // initSubmitStripe();
 
   setTimeout(() => {
