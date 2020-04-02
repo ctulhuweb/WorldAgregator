@@ -1,0 +1,15 @@
+= form_with(url: root_path, method: :get, class: "search-form pt-2", local: true) do |f|
+  .row
+    .col
+      = f.text_field :title, placeholder: "Title", class: "form-control"
+    .col.input-group
+      = f.text_field :created_at, class: "form-control", id: "datepicker", placeholder: "Added date"
+      .input-group-append
+        .input-group-text
+          = icon("far", "calendar-alt")
+    .col
+      = f.collection_select :status, ParseItem.statuses.map { |c| [c.first, c.first] }, :first, :second, {}, { class: "custom-select" }
+    .col.d-flex.align-items-center
+      .custom-control.custom-checkbox
+        = f.check_box :chosen, { class: "custom-control-input", id: "defaultUnchecked" }, true, false
+        = f.label :chosen, class:"custom-control-label", for: "defaultUnchecked"

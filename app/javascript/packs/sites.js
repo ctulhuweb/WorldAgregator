@@ -100,12 +100,44 @@ function initTestParse(){
   })
 }
 
-function initSearchForm(){
-  $('.search-js').on("ajax:success", function(event){
-    [data, status, xhr] = event.detail
-    console.log(data)
-    $('.parse-items').replaceWith(data.content)
+// function initSearchForm() {
+//   $('.search-js').submit(function(event){
+//     event.preventDefault();
+//     const formData = new FormData(this);
+//     $.ajax({
+//       method: "GET",
+//       dataType: 'json',
+//       url: "/",
+//       data: { search: formData.get("search")},
+//       success: function(data) {
+//         $('.parse-items').replaceWith(data.content)
+//       }
+//     })
+//   })
+// }
+
+function initSearchForm() {
+  $('.search-form').change(function(event) {
+    const formData = new FormData(this);
+    $.ajax({
+      method: "GET",
+      dataType: 'json',
+      url: "/",
+      data: { title: formData.get("title"), 
+              created_at: formData.get("created_at"),
+              chosen: formData.get("chosen"),
+              status: formData.get("status")},
+      success: function(data) {
+        $('.parse-items').replaceWith(data.content)
+      }
+    })
   })
+}
+
+function initOpenSeachForm() {
+  $('.btn-open-search').click(() => {
+    $('.search-form').fadeIn();
+  });
 }
 
 function initStarEvent(){
@@ -178,7 +210,11 @@ function readUrl(input) {
 }
 
 function initDatePicker() {
-  $('#datepicker').datepicker();
+  $('#datepicker').datepicker({
+    onSelect: function(formattedData, date, inst) {
+      $('.search-form').change();
+    }
+  });
 }
 
 initEvents = function() {
@@ -187,6 +223,7 @@ initEvents = function() {
   initPopper();
   initTestParse();
   initSearchForm();
+  initOpenSeachForm();
   initStarEvent();
   initTariffBuyEvent();
   initUpload();
