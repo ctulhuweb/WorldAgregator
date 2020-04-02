@@ -9,6 +9,7 @@ RailsAdmin.config do |config|
   config.current_user_method(&:current_user)
 
   RailsAdmin::Config::Actions.register(StripePlan)
+  RailsAdmin::Config::Actions.register(Statistics)
   ## == CancanCan ==
   config.authorize_with :cancancan
   config.parent_controller = 'ApplicationController'
@@ -35,5 +36,6 @@ RailsAdmin.config do |config|
     delete
     show_in_app
     stripe_plan
+    statistics
   end
 end
