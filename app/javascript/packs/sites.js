@@ -35,7 +35,7 @@ function bellItemChange(count_new_items){
 
 function initEventParseItem(){
   id = 0;
-  $(".parse-item").mouseover(function(){
+  $(".parse-items").on("mouseover", ".parse-item", function(event){
     hoverTime = 2000
     if(id == 0){
       id = $(this).data("id")
