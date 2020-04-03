@@ -100,22 +100,6 @@ function initTestParse(){
   })
 }
 
-// function initSearchForm() {
-//   $('.search-js').submit(function(event){
-//     event.preventDefault();
-//     const formData = new FormData(this);
-//     $.ajax({
-//       method: "GET",
-//       dataType: 'json',
-//       url: "/",
-//       data: { search: formData.get("search")},
-//       success: function(data) {
-//         $('.parse-items').replaceWith(data.content)
-//       }
-//     })
-//   })
-// }
-
 function initSearchForm() {
   $('.search-form').change(function(event) {
     $.ajax({
@@ -235,7 +219,6 @@ function htmlToElement(html) {
 function initShowMore() {
   $(".btn-show-more").click(function() {
     var btn = this;
-    console.log("raz");
     var data = getSearchFormData();
     data["page"] = this.dataset.page;
     $.ajax({
@@ -255,21 +238,20 @@ function initShowMore() {
 }
 
 initEvents = function() {
-  if (init) {
-    initEventParseItem();
-    initEventButtonUp();
-    initPopper();
-    initTestParse();
-    initSearchForm();
-    initOpenSeachForm();
-    initStarEvent();
-    initTariffBuyEvent();
-    initUpload();
-    initDatePicker();
-    // initSubmitStripe();
-    initShowMore();
-    init = false;
-  }  
+  console.log("init");
+  initEventParseItem();
+  initEventButtonUp();
+  initPopper();
+  initTestParse();
+  initSearchForm();
+  initOpenSeachForm();
+  initStarEvent();
+  initTariffBuyEvent();
+  initUpload();
+  initDatePicker();
+  // initSubmitStripe();
+  initShowMore();
+
   setTimeout(() => {
     $('.alert').fadeOut("slow");
   }, 4000);
@@ -277,7 +259,7 @@ initEvents = function() {
 
 var init = true;
 
-$(document).ready(initEvents);
+// $(document).ready(initEvents);
 $(document).on("turbolinks:load", initEvents);
 
 
