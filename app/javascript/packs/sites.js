@@ -129,6 +129,7 @@ function initSearchForm() {
               status: formData.get("status")},
       success: function(data) {
         $('.parse-items').replaceWith(data.content)
+        initShowMore();        
       }
     })
   })
@@ -217,23 +218,54 @@ function initDatePicker() {
   });
 }
 
-initEvents = function() {
-  initEventParseItem();
-  initEventButtonUp();
-  initPopper();
-  initTestParse();
-  initSearchForm();
-  initOpenSeachForm();
-  initStarEvent();
-  initTariffBuyEvent();
-  initUpload();
-  initDatePicker();
-  // initSubmitStripe();
+function htmlToElement(html) {
+  var template = document.createElement('template');
+  template.innerHTML = html;
+  return template.content.firstChild;
+}
 
+function initShowMore() {
+  $(".btn-show-more").click(function() {
+    var btn = this;
+    console.log("raz");
+    $.ajax({
+      method: "GET",
+      dataType: 'json',
+      url: "/",
+      data: { page: this.dataset.page },
+      success: function(data) {
+        var container = document.querySelector('.container');
+        // $(btn.parentElement).remove();
+        const nodes = document.querySelectorAll(".parse-items");
+        container.insertBefore(htmlToElement(data.content), nodes[nodes.length - 1]);
+      }
+    })
+    
+  })
+}
+
+initEvents = function() {
+  if (init) {
+    initEventParseItem();
+    initEventButtonUp();
+    initPopper();
+    initTestParse();
+    initSearchForm();
+    initOpenSeachForm();
+    initStarEvent();
+    initTariffBuyEvent();
+    initUpload();
+    initDatePicker();
+    // initSubmitStripe();
+    initShowMore();
+    init = false;
+  }  
   setTimeout(() => {
     $('.alert').fadeOut("slow");
   }, 4000);
 }
+
+var init = true;
 
 $(document).ready(initEvents);
 $(document).on("turbolinks:load", initEvents);
