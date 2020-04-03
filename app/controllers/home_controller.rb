@@ -8,7 +8,6 @@ class HomeController < ApplicationController
     @parse_items = SearchParseItems.call(@parse_items, params)
     @total = @parse_items.count
     @parse_items = @parse_items.offset((@page - 1) * @per_page).limit(@page * @per_page)
-    p "total: #{@total} page: #{@page} per_page: #{@per_page}"
     @show_pagination = @total > @page * @per_page
     respond_to do |format|
       format.html {}

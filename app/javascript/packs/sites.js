@@ -118,21 +118,29 @@ function initTestParse(){
 
 function initSearchForm() {
   $('.search-form').change(function(event) {
-    const formData = new FormData(this);
     $.ajax({
       method: "GET",
       dataType: 'json',
       url: "/",
-      data: { title: formData.get("title"), 
-              created_at: formData.get("created_at"),
-              chosen: formData.get("chosen"),
-              status: formData.get("status")},
+      data: getSearchFormData(),
       success: function(data) {
         $('.parse-items').replaceWith(data.content)
         initShowMore();        
       }
     })
   })
+}
+
+function getSearchFormData() {
+  const form = document.querySelector(".search-form");
+  const formData = new FormData(form);
+  data = {
+    title: formData.get("title"),
+    created_at: formData.get("created_at"),
+    chosen: formData.get("chosen"),
+    status: formData.get("status")
+  }
+  return data;
 }
 
 function initOpenSeachForm() {
@@ -228,16 +236,18 @@ function initShowMore() {
   $(".btn-show-more").click(function() {
     var btn = this;
     console.log("raz");
+    var data = getSearchFormData();
+    data["page"] = this.dataset.page;
     $.ajax({
       method: "GET",
       dataType: 'json',
       url: "/",
-      data: { page: this.dataset.page },
+      data: data,
       success: function(data) {
         var container = document.querySelector('.container');
-        // $(btn.parentElement).remove();
-        const nodes = document.querySelectorAll(".parse-items");
-        container.insertBefore(htmlToElement(data.content), nodes[nodes.length - 1]);
+        $(btn.parentElement).remove();
+        container.appendChild(htmlToElement(data.content));
+        initShowMore();
       }
     })
     
