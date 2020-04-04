@@ -35,7 +35,7 @@ function bellItemChange(count_new_items){
 
 function initEventParseItem(){
   id = 0;
-  $(".parse-items").on("mouseover", ".parse-item", function(event){
+  $(".container").on("mouseover", ".parse-item", function(event){
     hoverTime = 2000
     if(id == 0){
       id = $(this).data("id")
@@ -136,7 +136,7 @@ function initOpenSeachForm() {
 }
 
 function initStarEvent(){
-  $('.star-js').click((e) => {
+  $('.container').on('click', '.star-js', (e) => {
     pi = $(e.target).closest('.parse-item');
     parseItemId = $(pi).data("id");
     $.ajax({
