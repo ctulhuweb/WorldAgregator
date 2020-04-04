@@ -30,7 +30,8 @@ COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 CREATE TYPE public.order_status AS ENUM (
     'wait',
     'cancel',
-    'success'
+    'success',
+    'active'
 );
 
 
@@ -115,6 +116,38 @@ CREATE SEQUENCE public.active_storage_blobs_id_seq
 --
 
 ALTER SEQUENCE public.active_storage_blobs_id_seq OWNED BY public.active_storage_blobs.id;
+
+
+--
+-- Name: aggregators; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.aggregators (
+    id bigint NOT NULL,
+    title character varying,
+    active boolean,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: aggregators_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.aggregators_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: aggregators_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.aggregators_id_seq OWNED BY public.aggregators.id;
 
 
 --
@@ -431,6 +464,13 @@ ALTER TABLE ONLY public.active_storage_blobs ALTER COLUMN id SET DEFAULT nextval
 
 
 --
+-- Name: aggregators id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.aggregators ALTER COLUMN id SET DEFAULT nextval('public.aggregators_id_seq'::regclass);
+
+
+--
 -- Name: orders id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -500,6 +540,14 @@ ALTER TABLE ONLY public.active_storage_attachments
 
 ALTER TABLE ONLY public.active_storage_blobs
     ADD CONSTRAINT active_storage_blobs_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: aggregators aggregators_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.aggregators
+    ADD CONSTRAINT aggregators_pkey PRIMARY KEY (id);
 
 
 --
@@ -779,6 +827,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200310102608'),
 ('20200311042325'),
 ('20200313092424'),
-('20200319081351');
+('20200319081351'),
+('20200325053430'),
+('20200403091538');
 
 

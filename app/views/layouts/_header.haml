@@ -30,5 +30,6 @@
         = image_tag(avatar_url(current_user), options)
       - else
         = link_to "Sign in", new_user_session_path, class: "nav-link btn btn-outline-primary"
-  = button_tag(class: "btn-open-search btn btn-outline-primary mr-2 border-top-0 rounded-0") do
-    = icon('fas', 'search')
+  - if action_name == "index" && controller_name == "home" 
+    = button_tag(class: "btn-open-search btn btn-outline-primary mr-2 border-top-0 rounded-0") do
+      = icon('fas', 'search')

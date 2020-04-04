@@ -7,5 +7,4 @@ module HomeHelper
     html_options[:class] << " active" if link_active?(options)
     link_to(name, options, html_options, &block)
   end
-
 end

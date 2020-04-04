@@ -3,7 +3,7 @@
   %thead
     %tr
       %td
-        User
+        Active users
       %td
         Count Parsers
       %td
@@ -11,8 +11,56 @@
   %tbody
     %tr
       %td
-        CtuhuWeb
+        = @active_users
       %td
         200
       %td
         1000
+%table.table
+  %caption Active orders
+  %thead
+    %tr
+      %td
+        Tariff name
+      %td
+        orders
+  %tbody
+    - @active_orders.each do |k, v|
+      %tr
+        %td
+          = k
+        %td
+          = v
+%table.table
+  %caption Popular sites
+  %thead
+    %tr
+      %td
+        Url
+      %td
+        count
+  %tbody
+    - @active_orders.each do |k, v|
+      %tr
+        %td
+          = k
+        %td
+          = v
+%canvas{ id: "myChart" }
+%script{src: "https://cdn.jsdelivr.net/npm/chart.js@2.8.0"}
+:javascript
+  var ctx = document.getElementById('myChart').getContext('2d');
+  var chart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+        datasets: [{
+            label: 'My First dataset',
+            
+            borderColor: 'rgb(255, 99, 132)',
+            data: [0, 10, 5, 2, 20, 30, 45]
+        }]
+    },
+    options: {}
+  });
+  

@@ -118,11 +118,13 @@ function initSearchForm() {
 function getSearchFormData() {
   const form = document.querySelector(".search-form");
   const formData = new FormData(form);
-  data = {
-    title: formData.get("title"),
-    created_at: formData.get("created_at"),
-    chosen: formData.get("chosen"),
-    status: formData.get("status")
+  data = { 
+    search: {
+      title: formData.get("title"),
+      created_at: formData.get("created_at"),
+      chosen: formData.get("chosen"),
+      status: formData.get("status")
+    }
   }
   return data;
 }
