@@ -10,6 +10,7 @@ gem 'devise'
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'bootstrap', '~> 4.4.1'
 gem 'cancancan'
+gem 'chartkick'
 gem 'font-awesome-sass', '~> 5.12.0'
 gem 'haml-rails', '~> 2.0'
 gem 'money-rails', '~>1.12'

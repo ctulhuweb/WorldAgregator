@@ -16,3 +16,5 @@ import Cookie from "./Cookie";
 window.Cookie = new Cookie();
 
 require("packs/sites")
+require("chartkick")
+require("chart.js")

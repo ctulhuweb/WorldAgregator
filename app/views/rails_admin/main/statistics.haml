@@ -1,3 +1,7 @@
+= javascript_pack_tag 'charts', 'data-turbolinks-track': 'reload'
+- data = @parse_items_monthly.map { |r| r }
+- data = Hash[data.map(&:values).map(&:flatten)]
+= line_chart [{name: "Series A", data: data} ]
 %table.table
   %caption For Today
   %thead
@@ -46,21 +50,5 @@
           = k
         %td
           = v
-%canvas{ id: "myChart" }
-%script{src: "https://cdn.jsdelivr.net/npm/chart.js@2.8.0"}
-:javascript
-  var ctx = document.getElementById('myChart').getContext('2d');
-  var chart = new Chart(ctx, {
-    type: 'line',
-    data: {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-        datasets: [{
-            label: 'My First dataset',
-            
-            borderColor: 'rgb(255, 99, 132)',
-            data: [0, 10, 5, 2, 20, 30, 45]
-        }]
-    },
-    options: {}
-  });
+
   
