@@ -4,8 +4,10 @@ class Parser
 
   class << self
     def get_data_for_all_sites(sites)
+      @loger.debug("run get_data_for_all_sites(sites) Count sites: #{sites.size}")
       sites.each do |s|
         data = get_data(s)
+        @loger.debug("Site #{s.name} data: #{data}")
         if data.present?
           data.each do |item|
             if ParseItem.where("data->>'Title' = ?", item[:Title]).count == 0
@@ -18,6 +20,7 @@ class Parser
     end
 
     def get_data(site)
+      @loger.debug("run get_data")
       doc = Nokogiri::HTML(open(site.url)) rescue return
       items = doc.css(site.main_selector).map do |b|
         fetch(b, site.parse_fields)
