@@ -5,5 +5,6 @@ FactoryBot.define do
           }}
     status { :new }
     site
+    chosen { false }
   end
 end

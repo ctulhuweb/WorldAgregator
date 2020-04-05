@@ -1,6 +1,7 @@
 require "rails_helper"
 
 RSpec.describe ParseItem, type: :model do
+  include_examples "#paginate"
   context "is invalid" do
     before(:each) do
       @parse_item = build_stubbed(:parse_item)
@@ -22,16 +23,25 @@ RSpec.describe ParseItem, type: :model do
     end
   end
 
-  describe "search" do
+  describe "scopes" do
     before(:each) do
-      create_list(:parse_item, 5)
+      @count_chosen_parse_items = 5
+      @parse_items_today = 7
+      create_list(:parse_item, @count_chosen_parse_items, chosen: true)
       create(:parse_item, data: {Title: "vassaaa", Description: "watsuppp?"})
       create(:parse_item, data: {Title: "vassaaa brazza", Description: "watsuppp?"})
     end
 
-    it "return parse items by string" do
-      expect(ParseItem.search("vassa").count).to eq (2)
+    it "#title" do
+      expect(ParseItem.title("vassa").count).to eq (2)
     end
 
+    it "#chosen" do
+      expect(ParseItem.chosen.count).to eq(@count_chosen_parse_items)
+    end
+
+    it "#find_by_created_day" do
+      expect(ParseItem.find_by_created_day(Date.current).count).to eq(@parse_items_today)
+    end
   end
 end

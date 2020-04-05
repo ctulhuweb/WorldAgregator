@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Site, type: :model do
+  include_examples "#paginate"
   describe "create" do
     context "is invalid" do
       before(:each) do

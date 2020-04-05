@@ -41,7 +41,7 @@ RSpec.describe User, type: :model do
   describe ".has_new_items?" do
     it "return true if any parse item has status 'new'" do
       user = create(:user)
-      sites = create_list(:site, 2, :with_new_parse_items, user: user)
+      sites = create_list(:site, 2, :with_two_parse_items, user: user)
       expect(user.has_new_items?).to eq true
     end
 
