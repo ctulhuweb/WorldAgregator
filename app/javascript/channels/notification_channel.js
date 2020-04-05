@@ -21,7 +21,7 @@ function bellOn(){
 
 consumer.subscriptions.create({ channel: "NotificationChannel", room: "batya room"}, {
   connected() {
-    console.log("Connected to channel")
+    console.debug("Connected to channel")
   },
 
   disconnected() {

@@ -22,7 +22,6 @@ RSpec.describe Parser do
     it "return data for one parse item" do
       VCR.use_cassette("parser/get_data") do
         data = Parser.get_data(@site)
-        p data
         expect(data).not_to be_nil
       end
     end

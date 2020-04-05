@@ -14,7 +14,6 @@ changeStatus = function(parse_item_id){
         if (data.count_new_items == 0){
           bellOff()
         }
-        console.log(data)
         bellItemChange(data.count_new_items)
       }
     })
@@ -79,13 +78,9 @@ function initPopper(){
 
 function initReadMoreLink(){
   $(".read-more-js").click(function(event){
-    console.log("click more more")
     //event.preventDefault()
     let card = $(this).closest(".card")
     let body = $(card).find(".card-body")
-    console.log(body)
-    console.log(body.offsetHeight)
-
     $(body).animate({
       height: body.scrollHeight
     }, 1000)
@@ -146,7 +141,6 @@ function initStarEvent(){
       success: function(data){
         parse_item = $(`.parse-item[data-id=${data.id}] .parse-item__status`);
         star = $(parse_item).find('.star-js');
-        console.log(data)
         if (data.chosen) {
           star.addClass('.star-js_chosen');
         }
@@ -196,7 +190,6 @@ function readUrl(input) {
 
     reader.onload = function(e) {
       $('.current-image').hide();
-      console.log(e.target.result);
       $('.file-upload-image').attr('src', e.target.result);
     };
 
@@ -240,7 +233,6 @@ function initShowMore() {
 }
 
 initEvents = function() {
-  console.log("init");
   initEventParseItem();
   initEventButtonUp();
   initPopper();

@@ -2,5 +2,4 @@
   - parse_items.each do |pi|
     .col-lg-6.col-md-6.col-xl-4
       = render partial:  "parse_items/parse_item", locals: { parse_item: pi }
-  - p "show_pagination: #{show_pagination}"
   = render partial: "btn_show_more", locals: { show_pagination: show_pagination, page: page }
