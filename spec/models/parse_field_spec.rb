@@ -19,4 +19,8 @@ RSpec.describe ParseField, type: :model do
       expect(build_stubbed(:parse_field)).to be_valid
     end
   end
+
+  describe 'Associations' do
+    it_behaves_like "has a association", :site, :belongs_to
+  end
 end

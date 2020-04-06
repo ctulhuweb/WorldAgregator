@@ -19,3 +19,11 @@ RSpec.shared_examples "#paginate" do
     expect(described_class.paginate(2, 5)).to eq(records.last(5))
   end
 end
+
+RSpec.shared_examples "has a association" do |name, relation|
+  subject { described_class.reflect_on_association(name).macro }
+
+  it "#{relation} #{name}" do
+    is_expected.to eq relation
+  end
+end

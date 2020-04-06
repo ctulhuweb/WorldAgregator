@@ -44,4 +44,8 @@ RSpec.describe ParseItem, type: :model do
       expect(ParseItem.find_by_created_day(Date.current).count).to eq(@parse_items_today)
     end
   end
+
+  describe 'Associations' do
+    it_behaves_like "has a association", :site, :belongs_to
+  end
 end

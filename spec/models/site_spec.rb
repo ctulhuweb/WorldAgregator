@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Site, type: :model do
   include_examples "#paginate"
-  describe "create" do
+  describe "new" do
     context "is invalid" do
       before(:each) do
         @site = build_stubbed(:site)
@@ -23,13 +23,35 @@ RSpec.describe Site, type: :model do
         @site.valid?
         expect(@site.errors[:user].size).to eq(1)
       end
-
     end
 
     context "is valid" do
       it "with valid attributes" do
         expect(build_stubbed(:site)).to be_valid
       end
+    end
+  end
+
+  describe 'Associations' do
+    it_behaves_like "has a association", :user, :belongs_to
+    it_behaves_like "has a association", :parse_fields, :has_many
+    it_behaves_like "has a association", :parse_items, :has_many
+  end
+
+  describe 'Scopes' do
+    before(:each) {
+      @active_sites_count = 3
+      @not_active_sites_count = 2
+      create_list(:site, @active_sites_count, active: true)
+      create_list(:site, @not_active_sites_count, active: false)
+    }
+
+    it '#active' do
+      expect(described_class.active.count).to eq(@active_sites_count)
+    end
+
+    it '#not_active' do
+      expect(described_class.not_active.count).to eq(@not_active_sites_count)
     end
   end
 end
