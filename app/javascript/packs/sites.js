@@ -247,7 +247,7 @@ initEvents = function() {
   initShowMore();
 
   setTimeout(() => {
-    $('.alert').fadeOut("slow");
+    $('.alert, .notice').fadeOut("slow");
   }, 4000);
 }
 

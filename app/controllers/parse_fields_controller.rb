@@ -7,8 +7,16 @@ class ParseFieldsController < ApplicationController
 
   def create
     @pf = @site.parse_fields.build(parse_field_params)  
-    if @pf.save
-      redirect_to site_path(@pf.site)
+    respond_to do |format|
+      if @pf.save
+        format.js { redirect_to site_path(@pf.site), notice: "Parse Field was successfuly created." }
+      else
+        format.js {
+          flash[:alert] = @pf.errors.full_messages.first
+          flash.discard
+          render partial: "error", status: :unprocessable_entity
+        }
+      end
     end
   end
   
@@ -17,16 +25,17 @@ class ParseFieldsController < ApplicationController
   end
 
   def destroy
-    ParseField.destroy(params[:id])
+    @site.parse_fields.destroy(params[:id])
     respond_to do |format|
       format.js
     end
   end
 
   def update
-    @parse_field = ParseField.find(params[:id])
-    @parse_field.update(parse_field_params)
-    redirect_to site_path(@parse_field.site)
+    @parse_field = @site.parse_fields.find(params[:id])
+    if @parse_field.update(parse_field_params)
+      redirect_to site_path(@parse_field.site)
+    end
   end
 
   private
@@ -36,7 +45,7 @@ class ParseFieldsController < ApplicationController
   end
 
   def get_site
-    @site = Site.find(params[:site_id])
+    @site = current_user.sites.find(params[:site_id])
   end
 
 end
