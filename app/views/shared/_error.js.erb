@@ -1,0 +1,5 @@
+var body = document.querySelector('body');
+$(body).prepend("<%= j render partial: 'layouts/flash' %>")
+setTimeout(() => {
+  $('.alert, .notice').fadeOut("slow");
+}, 4000);

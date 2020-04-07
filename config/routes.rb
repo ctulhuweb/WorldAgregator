@@ -3,8 +3,8 @@ Rails.application.routes.draw do
   root to: "home#index"
   resources :sites do 
     member do
-      post :test_parse
-      post :change_status
+      get :test_parse
+      patch :change_status
     end
 
     resources :parse_fields

@@ -81,7 +81,11 @@ function initReadMoreLink(){
 function initTestParse(){
   $('.test-parse-js').on("ajax:success", function(event){
     [data, status, xhr] = event.detail
-    $('body').append(data.content)
+    if (xhr.status == 204) {
+      alert("A parse data empty. Check settigs of the webcraber");
+    } else {
+      $('body').append(data.content)
+    }
   })
 }
 

@@ -8,6 +8,5 @@
       .card-status.d-inline
         = "Status: #{site.active? ? 'Active' : 'Not active'}"
   .card-footer
-    = form_with model: Site, url: change_status_site_path(site), class: "d-inline site-status-js" do |f|
-      = f.hidden_field :active, value: !site.active?
+    = form_with model: Site, url: change_status_site_path(site), method: :patch, class: "d-inline site-status-js" do |f|
       = f.submit "#{site.active? ? "Disable" : "Enable"}", class: "btn btn-#{site.active? ? "danger" : "success"}"
