@@ -2,20 +2,20 @@ Rails.application.routes.draw do
   devise_for :users
   root to: "home#index"
   resources :sites do 
-    resources :parse_fields
     member do
       post :test_parse
       post :change_status
     end
-  end
 
-  resources :parse_items, only: [] do
-    member do 
-      post :change_status
-      post :chosen
-    end
-    collection do
-      get :tagged
+    resources :parse_fields
+    resources :parse_items, only: [] do
+      member do 
+        patch :change_status
+        patch :chosen
+      end
+      collection do
+        get :tagged
+      end
     end
   end
 

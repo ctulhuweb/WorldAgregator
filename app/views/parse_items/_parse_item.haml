@@ -1,5 +1,5 @@
 - status = parse_item.status == "new" ? "warning" : "primary"
-.parse-item.card.mb-4.box-shadow.h-250{ data: { id: parse_item.id }}
+.parse-item.card.mb-4.box-shadow.h-250{ data: { id: parse_item.id, site_id: parse_item.site_id }}
   .card-header.d-flex.justify-content-between.font-weight-bold
     = parse_item.site.name
     %strong.parse-item__status{class: "text-#{status}"}

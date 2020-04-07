@@ -35,6 +35,9 @@ body{
   .card-body{
     position: relative;
   }
+  &__status{
+    cursor: pointer;
+  }
 }
 
 .fa-star{

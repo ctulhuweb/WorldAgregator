@@ -1,23 +1,22 @@
-changeStatus = function(parse_item_id){
-  if (id == parse_item_id){
-    $.ajax({
-      method: "POST",
-      url: `/parse_items/${id}/change_status`,
-      dataType: 'json',
-      success: function(data){
-        parse_item = $(`.parse-item[data-id=${data.id}] .parse-item__status`)
-        $(parse_item).fadeOut("slow")
-        $(parse_item).text("Viewed")
-        $(parse_item).removeClass("text-warning").addClass("text-primary")
-        $(parse_item).fadeIn("fast")
-        id = 0
-        if (data.count_new_items == 0){
-          bellOff()
-        }
-        bellItemChange(data.count_new_items)
-      }
-    })
-  }
+changeStatus = function (target) {
+  const pi = $(target).closest('.parse-item');
+  const parseItemId = $(pi).data("id");
+  const siteId = $(pi).data("site-id");
+  $.ajax({
+    method: "PATCH",
+    url: `sites/${siteId}/parse_items/${parseItemId}/change_status`,
+    dataType: 'json',
+    success: function(){
+      let status = $(pi).find('.parse-item__status');
+      $(status).fadeOut("slow");
+      $(status).text("Viewed");
+      $(status).removeClass("text-warning").addClass("text-primary");
+      $(status).fadeIn("fast");
+      
+      // bellOff()
+      // bellItemChange(data.count_new_items)
+    }
+  })
 }
 
 function bellOff(){
@@ -33,18 +32,9 @@ function bellItemChange(count_new_items){
 
 
 function initEventParseItem(){
-  id = 0;
-  $(".container").on("mouseover", ".parse-item", function(event){
-    hoverTime = 2000
-    if(id == 0){
-      id = $(this).data("id")
-      new_id = id
-      t = setTimeout('changeStatus(new_id)', hoverTime)
-    }
-  })
-  $(".parse-item").mouseout(function(){
-    id = 0
-  })
+  $(".container").on("click", ".parse-item__status", function (e) {
+    changeStatus(e.target);
+  });
 }
 
 function initEventButtonUp(){
@@ -132,20 +122,20 @@ function initOpenSeachForm() {
 
 function initStarEvent(){
   $('.container').on('click', '.star-js', (e) => {
-    pi = $(e.target).closest('.parse-item');
-    parseItemId = $(pi).data("id");
+    const pi = $(e.target).closest('.parse-item');
+    const parseItemId = $(pi).data("id");
+    const siteId = $(pi).data("site-id");
     $.ajax({
-      method: 'POST',
-      url: `parse_items/${parseItemId}/chosen`,
+      method: 'PATCH',
+      url: `sites/${siteId}/parse_items/${parseItemId}/chosen`,
       dataType: 'json',
-      success: function(data){
-        parse_item = $(`.parse-item[data-id=${data.id}] .parse-item__status`);
-        star = $(parse_item).find('.star-js');
-        if (data.chosen) {
-          star.addClass('.star-js_chosen');
+      success: function () {
+        let star = $(pi).find('.star-js');
+        if (star.hasClass('fa-star_chosen')) {
+          star.removeClass('fa-star_chosen');
         }
         else {
-          star.removeClass('.star-js_chosen');
+          star.addClass('fa-star_chosen');
         }
       }
     });
