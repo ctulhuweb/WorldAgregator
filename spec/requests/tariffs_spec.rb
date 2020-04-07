@@ -6,8 +6,8 @@ RSpec.describe "Tariffs management", type: :request do
     sign_in @user
   end
 
-  describe "tariffs page" do
-    it "must render index template" do
+  describe '#index' do
+    it do
       get tariffs_path
       expect(response).to have_http_status(200)
     end
