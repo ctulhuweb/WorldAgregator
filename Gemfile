@@ -54,6 +54,8 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'guard-rails', require: false
   gem 'guard-livereload', '~> 2.5', require: false
+  gem 'guard-rspec', require: false
+  gem 'capistrano-local-precompile', '~> 1.2.0', require: false
 end
 
 group :test do
