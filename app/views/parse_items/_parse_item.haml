@@ -1,16 +1,16 @@
 - status = parse_item.status == "new" ? "warning" : "primary"
 .parse-item.card.mb-4.box-shadow.h-250{ data: { id: parse_item.id, site_id: parse_item.site_id }}
   .card-header.d-flex.justify-content-between.font-weight-bold
-    = parse_item.site.name
+    .parse-item__site-name
+      = parse_item.site.name
+      - chosen = parse_item.chosen ? "fa-star_chosen" : ""
+      = icon('fas', "star text-secondary star-js #{chosen}")
     %strong.parse-item__status{class: "text-#{status}"}
       = parse_item.status.capitalize
-  .card-body
-    - chosen = parse_item.chosen ? "fa-star_chosen" : ""
-    = icon('fas', "star text-secondary star-js #{chosen}")
+  %ul.list-group.list-group-flush
     - parse_item.data.each do |k, v|
-      %ul.list-group.list-group-flush
-        %li.list-group-item
-          = "#{content_tag("strong", k)}: #{v}".html_safe
+      %li.list-group-item
+        = "#{content_tag("strong", k)}: #{v}".html_safe
   .card-footer.d-flex.justify-content-between
     %small.text-muted
       = time_ago_in_words(parse_item.created_at)

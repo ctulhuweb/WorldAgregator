@@ -18,7 +18,7 @@
         // Popover notifications
         - icon_color = current_user.has_new_items? ? "text-warning" : "text-secondary"
         - data_content = "New items: #{current_user.new_items.count}"
-        - options = {"data-toggle" => "popover","data-placement" => "bottom", "data-content" => data_content, :class => "#{icon_color} nav-link fa-lg",}
+        - options = {"data-count" => current_user.new_items.count, "data-toggle" => "popover","data-placement" => "bottom", "data-content" => data_content, :class => "#{icon_color} nav-link fa-lg",}
         = icon("far", "bell", options)
         // Popover profile
         - title_block = content_tag("div", current_user.email, class: "text-center")
@@ -31,5 +31,5 @@
       - else
         = link_to "Sign in", new_user_session_path, class: "nav-link btn btn-outline-primary"
   - if action_name == "index" && controller_name == "home" 
-    = button_tag(class: "btn-open-search btn btn-outline-primary mr-2 border-top-0 rounded-0") do
+    = button_tag(class: "btn-open-search btn btn-outline-primary mr-3 border-top-0 rounded-0") do
       = icon('fas', 'search')

@@ -1,4 +1,8 @@
-changeStatus = function (target) {
+import Bell from './bell';
+import * as upload from './custom_file_input';
+import * as searchForm from './search_form';
+
+var changeStatus = function (target) {
   const pi = $(target).closest('.parse-item');
   const parseItemId = $(pi).data("id");
   const siteId = $(pi).data("site-id");
@@ -12,24 +16,12 @@ changeStatus = function (target) {
       $(status).text("Viewed");
       $(status).removeClass("text-warning").addClass("text-primary");
       $(status).fadeIn("fast");
-      
-      // bellOff()
-      // bellItemChange(data.count_new_items)
+      let bell = new Bell();
+      bell.decrease();
+      bell.update();
     }
   })
 }
-
-function bellOff(){
-  let bell = document.querySelector('.fa-bell')
-  bell.classList.remove("text-warning")
-  bell.classList.add("text-secondary")
-}
-
-function bellItemChange(count_new_items){
-  let bell = document.querySelector('.fa-bell')
-  $(bell).attr({"data-content": `New items: ${count_new_items}`})
-}
-
 
 function initEventParseItem(){
   $(".container").on("click", ".parse-item__status", function (e) {
@@ -57,7 +49,7 @@ function initEventButtonUp(){
 }
 
 function initPopper(){
-  options = {
+  const options = {
     html: true,
   }  
   $('[data-toggle="popover"]').popover(options)
@@ -66,62 +58,15 @@ function initPopper(){
   })
 }
 
-function initReadMoreLink(){
-  $(".read-more-js").click(function(event){
-    //event.preventDefault()
-    let card = $(this).closest(".card")
-    let body = $(card).find(".card-body")
-    $(body).animate({
-      height: body.scrollHeight
-    }, 1000)
-    
-  })
-}
-
 function initTestParse(){
   $('.test-parse-js').on("ajax:success", function(event){
     [data, status, xhr] = event.detail
     if (xhr.status == 204) {
-      alert("A parse data empty. Check settigs of the webcraber");
+      alert("A parse data empty. Check settigs of the web parser");
     } else {
       $('body').append(data.content)
     }
   })
-}
-
-function initSearchForm() {
-  $('.search-form').change(function(event) {
-    $.ajax({
-      method: "GET",
-      dataType: 'json',
-      url: "/",
-      data: getSearchFormData(),
-      success: function(data) {
-        $('.parse-items').replaceWith(data.content)
-        initShowMore();        
-      }
-    })
-  })
-}
-
-function getSearchFormData() {
-  const form = document.querySelector(".search-form");
-  const formData = new FormData(form);
-  data = { 
-    search: {
-      title: formData.get("title"),
-      created_at: formData.get("created_at"),
-      chosen: formData.get("chosen"),
-      status: formData.get("status")
-    }
-  }
-  return data;
-}
-
-function initOpenSeachForm() {
-  $('.btn-open-search').click(() => {
-    $('.search-form').fadeIn();
-  });
 }
 
 function initStarEvent(){
@@ -170,27 +115,6 @@ function initTariffBuyEvent() {
   });
 }
 
-function initUpload() {
-  if (document.querySelector('.custom-file-input'))
-    document.querySelector('.custom-file-input').addEventListener("change", function() {
-      this.nextElementSibling.innerText = this.files[0].name;
-      readUrl(this);
-    })
-}
-
-function readUrl(input) {
-  if (input.files && input.files[0]) {
-    var reader = new FileReader();
-
-    reader.onload = function(e) {
-      $('.current-image').hide();
-      $('.file-upload-image').attr('src', e.target.result);
-    };
-
-    reader.readAsDataURL(input.files[0]);
-  }
-}
-
 function initDatePicker() {
   $('#datepicker').datepicker({
     onSelect: function(formattedData, date, inst) {
@@ -206,47 +130,40 @@ function htmlToElement(html) {
 }
 
 function initShowMore() {
-  $(".btn-show-more").click(function() {
+  $(".container").on("click", ".btn-show-more", function () {
     var btn = this;
-    var data = getSearchFormData();
+    var data = searchForm.getSearchFormData();
     data["page"] = this.dataset.page;
     $.ajax({
       method: "GET",
       dataType: 'json',
       url: "/",
       data: data,
-      success: function(data) {
+      success: function (data) {
         var container = document.querySelector('.container');
         $(btn.parentElement).remove();
         container.appendChild(htmlToElement(data.content));
-        initShowMore();
       }
-    })
-    
-  })
+    });
+  });
 }
 
-initEvents = function() {
+var initEvents = function() {
   initEventParseItem();
   initEventButtonUp();
   initPopper();
   initTestParse();
-  initSearchForm();
-  initOpenSeachForm();
+  searchForm.initSearchForm();
+  searchForm.initOpenSeachForm();
   initStarEvent();
   initTariffBuyEvent();
-  initUpload();
+  upload.initUpload();
   initDatePicker();
-  // initSubmitStripe();
   initShowMore();
-
   setTimeout(() => {
     $('.alert, .notice').fadeOut("slow");
   }, 4000);
 }
-
-var init = true;
-
 // $(document).ready(initEvents);
 $(document).on("turbolinks:load", initEvents);
 

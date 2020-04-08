@@ -5,9 +5,9 @@
         Name
       %th
         Url
-      %th
+      %th.text-center
         Actions
-      %th
+      %th.text-center
         Active
   %tbody
     - @sites.each_with_index do |site|
@@ -16,11 +16,11 @@
           = site.name
         %td
           = site.url
-        %td
+        %td.text-center
           = link_to "Setting", site_path(site), class: "btn btn-secondary"
           = link_to "Edit", edit_site_path(site), class: "btn btn-secondary"
           = link_to "Delete", site_path(site), method: :delete, class: "btn btn-danger delete-site", remote: true
-        %td
+        %td.text-center
           - if site.active?
             = icon("fas", "check text-success")
           - else

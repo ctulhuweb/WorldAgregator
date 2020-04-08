@@ -1,4 +1,5 @@
 - if @parse_items.present?
+  = render "layouts/search_form"
   = render partial: "parse_items", locals: { parse_items: @parse_items, page: @page, show_pagination: @show_pagination }
   = render "btn_up"
 - else
