@@ -206,7 +206,8 @@ CREATE TABLE public.parse_fields (
     selector character varying,
     site_id bigint,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    field_type character varying DEFAULT 'custom'::character varying
 );
 
 
@@ -666,6 +667,13 @@ CREATE INDEX index_orders_on_user_id ON public.orders USING btree (user_id);
 
 
 --
+-- Name: index_parse_fields_on_field_type; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_parse_fields_on_field_type ON public.parse_fields USING btree (field_type);
+
+
+--
 -- Name: index_parse_fields_on_site_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -829,6 +837,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200313092424'),
 ('20200319081351'),
 ('20200325053430'),
-('20200403091538');
+('20200403091538'),
+('20200409095143');
 
 
