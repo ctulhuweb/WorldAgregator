@@ -1,8 +1,8 @@
 
 .row
-  .col-3
+  .col-4.left-column
     = render partial: "card-info", locals: { site: @site }
-  .col-9
+  .col-8
     %table.table.mt-4.table-hover
       %thead.thead-light
         %tr
@@ -23,7 +23,5 @@
               = link_to "Edit", edit_site_parse_field_path(@site, pf), class: "btn btn-secondary"
               = link_to "Delete", site_parse_field_path(@site, pf), method: :delete, remote: true, class: "btn btn-danger delete-parse-field"
     = link_to "Add Parse setting", new_site_parse_field_path(@site), class: "btn btn-primary"
-.row
-  .col-3
     
     

@@ -12,8 +12,6 @@
           = link_active_to "Tariffs", tariffs_path, class: "nav-link"
         %li.nav-item
           = link_active_to "Home", root_path, class: "nav-link"
-        %li.nav-item
-        %li.nav-item
       - if user_signed_in?
         // Popover notifications
         - icon_color = current_user.has_new_items? ? "text-warning" : "text-secondary"

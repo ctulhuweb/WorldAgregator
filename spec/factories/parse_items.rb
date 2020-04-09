@@ -6,5 +6,11 @@ FactoryBot.define do
     status { :new }
     site
     chosen { false }
+
+    trait :yesterday do
+      after :create do |parse_item|
+        parse_item.update(created_at: parse_item.created_at - 1.day)
+      end
+    end
   end
 end

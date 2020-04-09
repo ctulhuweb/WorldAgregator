@@ -1,9 +1,9 @@
 FactoryBot.define do
   factory :tariff do
-    title { "MyString" }
+    sequence(:title) { |n| "Tariff#{n}" }
     count_sites { 1 }
     parse_interval { 1 }
     price_cents { 100 }
-    active { true }
+    active { false }
   end
 end

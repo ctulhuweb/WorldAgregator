@@ -10,4 +10,5 @@
   .card-footer.text-center
     = form_with model: Site, url: change_status_site_path(site), method: :patch, class: "d-inline site-status-js" do |f|
       = f.submit "#{site.active? ? "Disable" : "Enable"}", class: "btn btn-#{site.active? ? "danger" : "success"}"
-    = link_to "Test parse",  test_parse_site_path(@site), class: "btn btn-primary ml-2 test-parse-js", method: :get, remote: :true 
+    .btn.btn-primary.ml-2.test-parse-js{data: { url: test_parse_site_path(site) }} 
+      Test parse

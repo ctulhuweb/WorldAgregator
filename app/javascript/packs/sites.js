@@ -58,15 +58,17 @@ function initPopper(){
   })
 }
 
-function initTestParse(){
-  $('.test-parse-js').on("ajax:success", function(event){
-    [data, status, xhr] = event.detail
-    if (xhr.status == 204) {
-      alert("A parse data empty. Check settigs of the web parser");
-    } else {
-      $('body').append(data.content)
-    }
-  })
+function initTestParse() {
+  $('.test-parse-js').on("click", function(event) {
+    $.ajax({
+      url: event.target.dataset.url,
+      method: "GET",
+      dataType: "json",
+      success: function (data) {
+        $('.left-column').append(data.content);
+      }
+    })
+  });
 }
 
 function initStarEvent(){

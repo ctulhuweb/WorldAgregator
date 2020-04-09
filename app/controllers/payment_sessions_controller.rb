@@ -5,7 +5,6 @@ class PaymentSessionsController < ApplicationController
     choosen_tariff = Tariff.find_by_title(params[:tariff_title])
     success_url = "http://#{Rails.application.config.app_config.url}/payment_sessions/success?session_id={CHECKOUT_SESSION_ID}"
     cancel_url = "http://#{Rails.application.config.app_config.url}/payment_sessions/cancel"
-    byebug
     session = Stripe::Checkout::Session.create(
       customer_email: current_user.email,
       payment_method_types: ['card'],

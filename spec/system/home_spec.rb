@@ -1,10 +1,34 @@
 require "rails_helper"
 
-RSpec.describe 'Home', type: :system do
+RSpec.describe 'Home', type: :system, js: true do
   let!(:user) { create(:user) }
+  
   scenario 'visits home page' do
     visit root_path
     expect(page).to have_content 'World Agregetor'
+  end
+
+  context "unauthorized user" do
+    before(:each) do
+      visit root_path
+    end
+    
+    it "redirect to sign in" do
+      expect(page).to have_content("Sign in")
+      expect(page).to have_selector(".form-signin")
+    end
+
+    it "render standart header" do
+      navigation_link = 3
+      expect(page).to have_selector(".header .navbar-nav")
+      expect(page).to have_selector(".nav-item", maximum: 3)
+      expect(page.find(".header")).to have_link("Sign in")
+    end
+
+    it "support links" do
+      expect(page).to have_link("Sign up")
+      expect(page).to have_link("Forgot your password?")
+    end
   end
 
   scenario 'sign_in' do
@@ -15,47 +39,78 @@ RSpec.describe 'Home', type: :system do
     expect(current_path).to eq root_path
   end
 
-  describe 'search field' do
-    before(:each) do 
+  describe 'search form' do
+    before(:each) do
       sign_in user
-    end
-
-    it "render only on home page" do
+      site = create(:site, user: user)
+      create(:parse_item, site: site, data: {'Title': "what we want found"}, chosen: true)
+      pi = create(:parse_item, :yesterday, site: site, data: {'Title': "another one"}, chosen: true, status: "viewed")
+      create(:parse_item, :yesterday, site: site, data: {'Title': "one more another one"}, chosen: true, status: "viewed")
+      create_list(:parse_item, 3, site: site, status: "viewed")
+      @created_at = pi.created_at
       visit root_path
-      expect(page).to have_button "Search"
     end
 
-    it_behaves_like "doesn't a render item on", "Search" do
-      subject { visit sites_path }
+    it "only on home page" do
+      expect(page).to have_selector ".btn-open-search"
     end
-    # it_behaves_like "doesn't a render item on", "tariffs", "Search"
-    
-    # it "doesn't render on another pages" do
-    #   visit sites_path
-    #   expect(page).not_to have_button "Search"
-    # end
+
+    it "show on click btn" do
+      click_button(class: "btn-open-search")
+      expect(page).to have_selector ".search-form"
+    end
 
     context 'with valid parameter' do
       before(:each) do
-        site = create(:site, user: user)
-        create(:parse_item, site: site, data: {'Title': "what we want found"})
-        create(:parse_item, site: site, data: {'Title': "another one"})
-        create(:parse_item, site: site, data: {'Title': "one more another one"})
-        visit root_path
-        fill_in "search", with: "what we want"
-        click_button "Search"
+        click_button(class: "btn-open-search")
       end
       
-      it 'return found items' do
-        expect(page).to have_content "what we want found"
+      it "by title" do
+        within(".search-form") do
+          fill_in "title", with: "what we want found"
+        end
+        page.find("body").click # change focus
+        expect(page).to have_selector(".parse-item", minimum: 1)
       end
 
-      it 'doesn\'t return another' do
-        expect(page).not_to have_content "another one"
+      # TODO
+      # it "by date" do
+      #   within(".search-form") do
+      #     fill_in "datepicker", with: @created_at.strftime("%d.%m.%y")
+          
+      #   end
+      #   page.find(".datepicker--cell[data-date='1']").click
+      #   sleep 2
+      #   expect(page).to have_selector(".parse-item", minimum: 1)
+      # end
+
+      it "by status" do
+        within(".search-form") do
+          select("viewed", from: "status")
+        end
+        expect(page).to have_selector(".parse-item", count: 5)
+      end
+
+      it "by chosen" do
+        within(".search-form") do
+          find(".custom-checkbox .custom-control-label").click
+        end
+        expect(page).to have_selector(".parse-item", count: 1)
+      end
+
+      it "by all fields" do
+        within(".search-form") do
+          fill_in "title", with: "another one"
+          fill_in "datepicker", with: @created_at.strftime("%d.%m.%y")
+          find(".custom-checkbox .custom-control-label").click
+          select("viewed", from: "status")
+        end
+        sleep 2
+        expect(page).to have_selector(".parse-item", count: 2)
       end
     end
   end
-
+  
   describe "Header" do
     before(:each) do 
       sign_in user
@@ -69,13 +124,6 @@ RSpec.describe 'Home', type: :system do
       visit root_path
       expect(page.find(".active")).to have_content('Home')
     end
-
-    # it "Settings in header" do
-    #   visit root_path
-    #   find(".avatar").click
-    #   expect(page).to have_content(user.email)
-    #   expect(page).to have_selector('.btn-profile', text: 'Profile')
-    # end
 
   end
 end
