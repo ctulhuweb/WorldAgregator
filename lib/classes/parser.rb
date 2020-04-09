@@ -30,7 +30,15 @@ class Parser
     def fetch(block, parse_fields)
       data = {}
       parse_fields.each do |pf|
-        data.merge!({ "#{pf.name}": block.css(pf.selector)[0].content })
+        if pf.field_type == "custom"
+          data.merge!({ "#{pf.name}": block.css(pf.selector)[0].content })
+        else
+          data.merge!({ 
+            "#{pf.name}": { 
+              value: block.css(pf.selector)[0]["href"], 
+              type: "link"} 
+          })
+        end
       end
       data
     end

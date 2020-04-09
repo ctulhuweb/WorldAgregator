@@ -8,15 +8,23 @@ RSpec.describe 'Parse items', type: :system, js: true do
     visit root_path
   end
   
-  describe 'block' do
+  describe 'block contains' do
     let!(:parse_item) { find(".parse-item", match: :first) }
     
-    it "contains" do
+    it "standart parts" do
       expect(parse_item).to have_content(@site.name)
       selectors = [".card-header", ".list-group", ".card-footer"]
       selectors.each do |s|
         expect(parse_item).to have_selector(s)
       end
+    end
+
+    it "with links on sites" do
+      pi = create(:parse_item, site: @site)
+      pi.data["Link"] = { value: "http://example.com/items/2", type: "link" }
+      pi.save
+      visit root_path
+      expect(page).to have_content("Link")
     end
 
     describe 'parse item actions' do

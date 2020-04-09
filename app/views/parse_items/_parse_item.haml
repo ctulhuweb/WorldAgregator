@@ -9,11 +9,15 @@
       = parse_item.status.capitalize
   %ul.list-group.list-group-flush
     - parse_item.data.each do |k, v|
-      %li.list-group-item
-        = "#{content_tag("strong", k)}: #{v}".html_safe
+      - unless v.is_a?(Hash)
+        %li.list-group-item
+          = "#{content_tag("strong", k)}: #{v}".html_safe
   .card-footer.d-flex.justify-content-between
     %small.text-muted
       = time_ago_in_words(parse_item.created_at)
-    -# #like_button_container
-    =# content_tag("div", "Read more", class: "read-more-js")
+    .parse-item__link
+      - link = parse_item.data.select { |k, v| v.is_a?(Hash) }
+      - if link.present?
+        - key = link.keys.first
+        = link_to key, link[key]["value"]  
       

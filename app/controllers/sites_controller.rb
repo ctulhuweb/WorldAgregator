@@ -56,6 +56,7 @@ class SitesController < ApplicationController
     data = Parser.get_data(@site)
     if data.present?
       pi = @site.parse_items.build(data: data[0], status: :new, created_at: Date.today)
+      p pi.data
       respond_to do |format|
         format.json {
           render json: { content: ParseItemsController.render(template: "sites/_test_parse", locals: { parse_item: pi }, layout: false)}, status: :ok

@@ -78,6 +78,7 @@ RSpec.describe "Sites managemet", type: :system, js: true do
       within("form") do
         fill_in "parse_field_name", with: parse_field.name
         fill_in "parse_field_selector", with: parse_field.selector
+        select("link", from: "parse_field_field_type")
         click_button "Submit"
       end
       expect(page).to have_content(parse_field.name)
@@ -92,6 +93,7 @@ RSpec.describe "Sites managemet", type: :system, js: true do
       within("form") do
         fill_in "parse_field_name", with: new_attr[:name]
         fill_in "parse_field_selector", with: new_attr[:selector]
+        select("link", from: "parse_field_field_type")
         click_button "Submit"
       end
       expect(page).to have_content(new_attr[:name])

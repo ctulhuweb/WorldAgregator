@@ -41,7 +41,7 @@ class ParseFieldsController < ApplicationController
   private
 
   def parse_field_params
-    params.require(:parse_field).permit(:name, :selector, :site_id)
+    params.require(:parse_field).permit(:name, :selector, :site_id, :field_type)
   end
 
   def get_site

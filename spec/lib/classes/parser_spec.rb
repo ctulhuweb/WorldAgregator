@@ -10,6 +10,7 @@ RSpec.describe Parser do
       @site.active = true
       create(:parse_field, site: @site, name: "Date", selector: ".sEnLiDate")
       create(:parse_field, site: @site, name: "Title", selector: ".sEnLiTitle")
+      create(:parse_field, site: @site, name: "Link", selector: ".sEnLiTitle a", field_type: "link")
     end
     
     context "error receiving data from the site" do
@@ -22,6 +23,7 @@ RSpec.describe Parser do
     it "return data for one parse item" do
       VCR.use_cassette("parser/get_data") do
         data = Parser.get_data(@site)
+        expect(data[0][:Link][:value]).to be_present
         expect(data).not_to be_nil
       end
     end

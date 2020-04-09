@@ -14,4 +14,10 @@
             = f.text_field :selector, placeholder: "Selector",class: "form-control"
           .col
             = "CSS selector of element that wrap info. Example: .title"
+      .form-group
+        .row
+          .col
+            - types = ParseField.field_types.map { |t| [t.first, t.first] }
+            = f.collection_select :field_type, types , :first, :second, {}, { class: "form-control" } 
+          .col
       = f.submit "Submit", class: "btn btn-primary"

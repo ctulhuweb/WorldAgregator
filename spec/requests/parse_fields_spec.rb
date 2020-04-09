@@ -22,6 +22,12 @@ RSpec.describe "ParseFields", type: :request do
       expect{ subject }.to change(@site.parse_fields, :count).by(1)
     end
 
+    it "add a parse field with a field type link" do
+      parse_field_params.merge!({field_type: "link"})
+      subject
+      expect(@site.parse_fields.first.field_type).to eq("link")
+    end
+
     it "redirect to site path" do
       subject
       expect(response).to have_http_status(302)
