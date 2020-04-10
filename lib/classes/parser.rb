@@ -7,7 +7,7 @@ class Parser
       @logger.debug("run get_data_for_all_sites(sites) Count sites: #{sites.size}")
       sites.each do |s|
         data = get_data(s)
-        @logger.debug(site.info)
+        @logger.debug(s.info)
         @logger.debug("Parse data: #{data}")
         if data.present?
           data.each do |item|
