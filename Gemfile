@@ -19,6 +19,7 @@ gem 'rails', '~> 6.0.2', '>= 6.0.2.1'
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma', '~> 4.1'
 gem 'sass-rails', '>= 6'
+gem "sentry-raven"
 gem 'sidekiq', '5.2'
 gem 'sprockets-rails', :require => 'sprockets/railtie'
 gem 'stripe'
