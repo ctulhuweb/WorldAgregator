@@ -12,4 +12,8 @@ class Site < ApplicationRecord
 
   scope :active, -> { where(active: true) }
   scope :not_active, -> { where(active: false) }
+
+  def info
+    "Name: #{name} Url: #{url} Active: #{active}"
+  end
 end

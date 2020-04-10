@@ -16,8 +16,5 @@
     %small.text-muted
       = time_ago_in_words(parse_item.created_at)
     .parse-item__link
-      - link = parse_item.data.select { |k, v| v.is_a?(Hash) }
-      - if link.present?
-        - key = link.keys.first
-        = link_to key, link[key]["value"]  
+      = parse_item_link_to(parse_item)
       

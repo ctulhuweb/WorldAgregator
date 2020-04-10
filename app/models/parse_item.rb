@@ -11,4 +11,8 @@ class ParseItem < ApplicationRecord
 
   validates :data, presence: true
   validates :status, presence: true
+
+  def link_data
+    data.select { |k, v| v.is_a?(Hash) }
+  end
 end
