@@ -86,6 +86,6 @@ class SitesController < ApplicationController
   end
 
   def site_params
-    params.require(:site).permit(:name, :url, :main_selector, :active)
+    params.require(:site).permit(:name, :url, :main_selector, :active, parse_fields_attributes: [:id, :name, :selector, :_destroy])
   end
 end

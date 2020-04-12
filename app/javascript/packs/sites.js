@@ -150,6 +150,10 @@ function initShowMore() {
   });
 }
 
+function initCocoon() {
+  $('.add_fields').data("association-insertion-node", '.table.parse_fields tbody');
+}
+
 var initEvents = function() {
   initEventParseItem();
   initEventButtonUp();
@@ -162,6 +166,7 @@ var initEvents = function() {
   upload.initUpload();
   initDatePicker();
   initShowMore();
+  initCocoon();
   setTimeout(() => {
     $('.alert, .notice').fadeOut("slow");
   }, 4000);

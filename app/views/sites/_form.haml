@@ -20,4 +20,20 @@
           .col.field__description
             = "Block selector it css element for find every parse block/element"
       .form-group
+        = link_to_add_association 'Add parse field', f, :parse_fields
+        %table.table.parse_fields
+          %caption Parse Fields* - (info what does mean parse field)
+          %thead
+            %tr
+              %td
+                Name
+              %td
+                Selector
+              %td
+                Action
+          %tbody
+            = f.fields_for(:parse_fields) do |pf|
+              = render 'parse_field_fields', f: pf
+        
+      .form-group
         = f.submit "Save", class: "btn btn-primary"
