@@ -30,14 +30,15 @@ RSpec.describe User, type: :model do
   end
 
   describe "Associations" do
-    it_behaves_like "has a association", :sites, :has_many
+    it_behaves_like "has a association", :aggregators, :has_many
     it_behaves_like "has a association", :orders, :has_many
   end
 
   describe 'istance methods' do
     before(:each) do
       @user = create(:user)
-      @sites = create_list(:site, 2, :with_two_parse_items, user: @user)
+      @ag = create(:aggregator, user: @user)
+      @sites = create_list(:site, 2, :with_two_parse_items, aggregator: @ag)
     end
 
     it "#has_new_items" do

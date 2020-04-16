@@ -39,7 +39,7 @@ RSpec.describe Site, type: :model do
   end
 
   describe 'Associations' do
-    it_behaves_like "has a association", :user, :belongs_to
+    it_behaves_like "has a association", :aggregator, :belongs_to
     it_behaves_like "has a association", :parse_fields, :has_many
     it_behaves_like "has a association", :parse_items, :has_many
   end

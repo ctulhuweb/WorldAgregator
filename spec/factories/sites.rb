@@ -6,7 +6,7 @@ FactoryBot.define do
     active { false }
     aggregator
     
-    trait :with_new_parse_items do
+    trait :with_two_parse_items do
       after(:create) do |site| 
         create_list(:parse_item, 2, site: site)
       end
