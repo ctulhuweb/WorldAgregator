@@ -1,0 +1,6 @@
+production:
+  url: http://167.172.48.109/
+development:
+  url: aef2b84b.ngrok.io
+test:
+  url: aef2b84b.ngrok.io

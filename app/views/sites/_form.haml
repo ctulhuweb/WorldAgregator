@@ -1,21 +1,39 @@
-= form_with model: @site do |f|
-  .form-group
-    .row
-      .col
-        = f.text_field :name, class: "form-control", placeholder: "Name"
-      .col.field__description
-        = "Name for site parse items will be have this tag"
-  .form-group
-    .row
-      .col
-        = f.text_field :url, class: "form-control", placeholder: "Url"
-      .col.field__description
-        = "Url it where places blocks/elements that you want parse"
-  .form-group
-    .row
-      .col
-        = f.text_field :main_selector, class: "form-control", placeholder: "Block selector"
-      .col.field__description
-        = "Block selector it css element for find every parse block/element"
-  .form-group
-    = f.submit "Save", class: "btn btn-primary"
+.row.mt-4
+  .col-8.offset-2
+    = form_with model: @site do |f|
+      .form-group
+        .row
+          .col
+            = f.text_field :name, class: "form-control", placeholder: "Name"
+          .col.field__description
+            = "Name for site parse items will be have this tag"
+      .form-group
+        .row
+          .col
+            = f.text_field :url, class: "form-control", placeholder: "Url"
+          .col.field__description
+            = "Url it where places blocks/elements that you want parse"
+      .form-group
+        .row
+          .col
+            = f.text_field :main_selector, class: "form-control", placeholder: "Block selector"
+          .col.field__description
+            = "Block selector it css element for find every parse block/element"
+      .form-group
+        = link_to_add_association 'Add parse field', f, :parse_fields
+        %table.table.parse_fields
+          %caption Parse Fields* - (info what does mean parse field)
+          %thead
+            %tr
+              %td
+                Name
+              %td
+                Selector
+              %td
+                Action
+          %tbody
+            = f.fields_for(:parse_fields) do |pf|
+              = render 'parse_field_fields', f: pf
+        
+      .form-group
+        = f.submit "Save", class: "btn btn-primary"

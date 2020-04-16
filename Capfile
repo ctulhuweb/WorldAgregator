@@ -23,21 +23,15 @@ require "capistrano/rbenv"
 # require "capistrano/chruby"
 require "capistrano/bundler"
 # require "capistrano/rails/assets"
-# require "capistrano/rails/migrations"
+require "capistrano/rails/migrations"
 # require "capistrano/passenger"
 
-require 'capistrano/rails'
+# require 'capistrano/rails'
 require 'capistrano/puma'
 install_plugin Capistrano::Puma  # Default puma tasks
+require 'capistrano/sidekiq'
+require "whenever/capistrano"
+require 'capistrano/local_precompile'
 
 # Load custom tasks from `lib/capistrano/tasks` if you have any defined
 Dir.glob("lib/capistrano/tasks/*.rake").each { |r| import r }
-
-
-namespace :deploy do
-  namespace :assets do
-    before :precompile, :set_master_key do
-        puts "before_pricompile"   
-    end
-  end
-end

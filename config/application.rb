@@ -27,5 +27,6 @@ module WorldAgregator
     config.cache_store = :redis_store, "redis://localhost:6379/0/cache", { expires_in: 90.minutes }
     config.active_record.schema_format = :sql
     config.generators.system_tests = nil
+    config.app_config = Rails.application.config_for(:app_config)
   end
 end

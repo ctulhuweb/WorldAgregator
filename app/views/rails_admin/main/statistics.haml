@@ -1,0 +1,54 @@
+= javascript_pack_tag 'charts', 'data-turbolinks-track': 'reload'
+- data = @parse_items_monthly.map { |r| r }
+- data = Hash[data.map(&:values).map(&:flatten)]
+= line_chart [{name: "Series A", data: data} ]
+%table.table
+  %caption For Today
+  %thead
+    %tr
+      %td
+        Active users
+      %td
+        Count Parsers
+      %td
+        Parse Items count
+  %tbody
+    %tr
+      %td
+        = @active_users
+      %td
+        200
+      %td
+        1000
+%table.table
+  %caption Active orders
+  %thead
+    %tr
+      %td
+        Tariff name
+      %td
+        orders
+  %tbody
+    - @active_orders.each do |k, v|
+      %tr
+        %td
+          = k
+        %td
+          = v
+%table.table
+  %caption Popular sites
+  %thead
+    %tr
+      %td
+        Url
+      %td
+        count
+  %tbody
+    - @active_orders.each do |k, v|
+      %tr
+        %td
+          = k
+        %td
+          = v
+
+  

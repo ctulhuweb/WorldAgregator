@@ -1,6 +1,8 @@
 class SitesController < ApplicationController
+  before_action :set_site, except: [:new, :index, :create]
+  
   def index
-    @sites = current_user.sites.sort_by { |s| s.name }
+    @sites = current_user.sites.order(:name)
   end
 
   def new
@@ -8,40 +10,49 @@ class SitesController < ApplicationController
   end
 
   def edit
-    @site = Site.find(params[:id])
   end
 
   def update
-    @site = Site.find(params[:id])
-    if @site.update(site_params)
-      redirect_to action: 'index'
-    else
-      render "layouts/errors", locals: { resource: @site }, status: :unprocessable_entity
+    @site = current_user.sites.find(params[:id])
+    respond_to do |format|
+      if @site.update(site_params)
+        format.js { redirect_to action: 'index', notice: "Site successfuly updated." }
+      else
+        format.js {
+          flash[:alert] = @site.errors.full_messages.first
+          flash.discard
+          render partial: "shared/error", status: :unprocessable_entity
+        }
+      end
     end
   end
 
   def create
     @site = current_user.sites.build(site_params)
-    if @site.save
-      redirect_to action: 'index'
-    else
-      render "layouts/errors", locals: { resource: @site }, status: :unprocessable_entity
+    respond_to do |format|
+      if @site.save
+        format.js { redirect_to action: 'index', notice: "Site successfuly created." }
+      else
+        format.js {
+          flash[:alert] = @site.errors.full_messages.first
+          flash.discard
+          render partial: "shared/error", status: :unprocessable_entity
+        }
+      end
     end
   end
 
   def show
-    @site = Site.find(params[:id])
   end
 
   def destroy
-    current_user.sites.destroy(params[:id])
+    @site.destroy
     respond_to do |format|
       format.js
     end
   end
 
   def test_parse
-    @site = Site.find(params[:id])
     data = Parser.get_data(@site)
     if data.present?
       pi = @site.parse_items.build(data: data[0], status: :new, created_at: Date.today)
@@ -53,26 +64,28 @@ class SitesController < ApplicationController
     else
       respond_to do |format|
         format.json {
-          render json: { content: "empty" }, status: :ok
+          render json: {}, status: :no_content
         }
       end
     end
   end
 
   def change_status
-    @site = Site.find(params[:id])
-    if @site.update_attributes(site_params) 
+    if @site.update(active: !@site.active) 
       respond_to do |format|
         format.js {
-          render partial: "card-info-update", locals: { site: @site }
+          render partial: "card-info-update", locals: { site: @site }, status: :ok
         }
       end
     end
   end
   private
 
+  def set_site
+    @site = current_user.sites.find(params[:id])
+  end
+
   def site_params
-    params.require(:site).permit(:name, :url, :main_selector, :active)
-    #params.require(:site).permit(:name, :url, parse_settings_attributes: [:id, :name, :selector])
+    params.require(:site).permit(:name, :url, :main_selector, :active, parse_fields_attributes: [:id, :name, :selector, :_destroy])
   end
 end

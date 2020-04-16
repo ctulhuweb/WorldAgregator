@@ -3,6 +3,8 @@ require 'spec_helper'
 require 'vcr'
 require 'support/factory_bot'
 require 'support/vcr_setup'
+require 'support/shared_examples_helpers'
+require 'support/models_shared_examples'
 ENV['RAILS_ENV'] ||= 'test'
 
 require File.expand_path('../config/environment', __dir__)
@@ -40,6 +42,7 @@ RSpec.configure do |config|
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
   config.include Devise::Test::IntegrationHelpers, type: :request
   config.include Devise::Test::IntegrationHelpers, type: :system
+  config.include Rails.application.routes.url_helpers
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.

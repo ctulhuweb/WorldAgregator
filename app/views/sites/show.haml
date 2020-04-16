@@ -1,26 +1,27 @@
-.row
-  = render partial: "card-info", locals: { site: @site }
-.row
-  %table.table.mt-3.table-hover
-    %thead.thead-light
-      %tr
-        %th
-          Name
-        %th
-          Selector
-        %th
-          Actions
-    %tbody
-      - @site.parse_fields.each do |pf|
-        %tr
-          %td
-            = pf.name
-          %td
-            = pf.selector
-          %td
-            = link_to "Edit", edit_site_parse_field_path(@site, pf), class: "btn btn-secondary"
-            = link_to "Delete", site_parse_field_path(@site, pf), method: :delete, remote: true, class: "btn btn-danger delete-parse-field"
 
 .row
-  = link_to "Add Parse setting", new_site_parse_field_path(@site), class: "btn btn-primary"
-  = link_to "Test parse",  test_parse_site_path(@site), class: "btn btn-primary ml-2 test-parse-js", method: :post, remote: :true 
+  .col-4.left-column
+    = render partial: "card-info", locals: { site: @site }
+  .col-8
+    %table.table.mt-4.table-hover
+      %thead.thead-light
+        %tr
+          %th
+            Name
+          %th
+            Selector
+          %th
+            Actions
+      %tbody
+        - @site.parse_fields.each do |pf|
+          %tr
+            %td
+              = pf.name
+            %td
+              = pf.selector
+            %td
+              = link_to "Edit", edit_site_parse_field_path(@site, pf), class: "btn btn-secondary"
+              = link_to "Delete", site_parse_field_path(@site, pf), method: :delete, remote: true, class: "btn btn-danger delete-parse-field"
+    = link_to "Add Parse setting", new_site_parse_field_path(@site), class: "btn btn-primary"
+    
+    

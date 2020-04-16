@@ -1,15 +1,23 @@
-= form_with model: [@site, @parse_field] do |f|
-  = f.hidden_field :site_id, value: @site.id
-  .form-group
-    .row
-      .col
-        = f.text_field :name, placeholder: "Name",class: "form-control"
-      .col
-        = "Name for data that will be scraping."
-  .form-group
-    .row
-      .col
-        = f.text_field :selector, placeholder: "Selector",class: "form-control"
-      .col
-        = "CSS selector of element that wrap info. Example: .title"
-  = f.submit "Submit", class: "btn btn-primary"
+.row.mt-4
+  .col-8.offset-2
+    = form_with model: [@site, @parse_field] do |f|
+      = f.hidden_field :site_id, value: @site.id
+      .form-group
+        .row
+          .col
+            = f.text_field :name, placeholder: "Name",class: "form-control"
+          .col
+            = "Name for data that will be scraping."
+      .form-group
+        .row
+          .col
+            = f.text_field :selector, placeholder: "Selector",class: "form-control"
+          .col
+            = "CSS selector of element that wrap info. Example: .title"
+      .form-group
+        .row
+          .col
+            - types = ParseField.field_types.map { |t| [t.first, t.first] }
+            = f.collection_select :field_type, types , :first, :second, {}, { class: "form-control" } 
+          .col
+      = f.submit "Submit", class: "btn btn-primary"

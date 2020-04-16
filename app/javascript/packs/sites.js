@@ -1,51 +1,32 @@
-changeStatus = function(parse_item_id){
-  if (id == parse_item_id){
-    $.ajax({
-      method: "POST",
-      url: `/parse_items/${id}/change_status`,
-      dataType: 'json',
-      success: function(data){
-        parse_item = $(`.parse-item[data-id=${data.id}] .parse-item__status`)
-        $(parse_item).fadeOut("slow")
-        $(parse_item).text("Viewed")
-        $(parse_item).removeClass("text-warning").addClass("text-primary")
-        $(parse_item).fadeIn("fast")
-        id = 0
-        if (data.count_new_items == 0){
-          bellOff()
-        }
-        console.log(data)
-        bellItemChange(data.count_new_items)
-      }
-    })
-  }
-}
+import Bell from './bell';
+import * as upload from './custom_file_input';
+import * as searchForm from './search_form';
 
-function bellOff(){
-  let bell = document.querySelector('.fa-bell')
-  bell.classList.remove("text-warning")
-  bell.classList.add("text-secondary")
-}
-
-function bellItemChange(count_new_items){
-  let bell = document.querySelector('.fa-bell')
-  $(bell).attr({"data-content": `New items: ${count_new_items}`})
-}
-
-
-function initEventParseItem(){
-  id = 0;
-  $(".parse-item").mouseover(function(){
-    hoverTime = 2000
-    if(id == 0){
-      id = $(this).data("id")
-      new_id = id
-      t = setTimeout('changeStatus(new_id)', hoverTime)
+var changeStatus = function (target) {
+  const pi = $(target).closest('.parse-item');
+  const parseItemId = $(pi).data("id");
+  const siteId = $(pi).data("site-id");
+  $.ajax({
+    method: "PATCH",
+    url: `sites/${siteId}/parse_items/${parseItemId}/change_status`,
+    dataType: 'json',
+    success: function(){
+      let status = $(pi).find('.parse-item__status');
+      $(status).fadeOut("slow");
+      $(status).text("Viewed");
+      $(status).removeClass("text-warning").addClass("text-primary");
+      $(status).fadeIn("fast");
+      let bell = new Bell();
+      bell.decrease();
+      bell.update();
     }
   })
-  $(".parse-item").mouseout(function(){
-    id = 0
-  })
+}
+
+function initEventParseItem(){
+  $(".container").on("click", ".parse-item__status", function (e) {
+    changeStatus(e.target);
+  });
 }
 
 function initEventButtonUp(){
@@ -68,7 +49,7 @@ function initEventButtonUp(){
 }
 
 function initPopper(){
-  options = {
+  const options = {
     html: true,
   }  
   $('[data-toggle="popover"]').popover(options)
@@ -77,54 +58,35 @@ function initPopper(){
   })
 }
 
-function initReadMoreLink(){
-  $(".read-more-js").click(function(event){
-    console.log("click more more")
-    //event.preventDefault()
-    let card = $(this).closest(".card")
-    let body = $(card).find(".card-body")
-    console.log(body)
-    console.log(body.offsetHeight)
-
-    $(body).animate({
-      height: body.scrollHeight
-    }, 1000)
-    
-  })
-}
-
-function initTestParse(){
-  $('.test-parse-js').on("ajax:success", function(event){
-    [data, status, xhr] = event.detail
-    $('body').append(data.content)
-  })
-}
-
-function initSearchForm(){
-  $('.search-js').on("ajax:success", function(event){
-    [data, status, xhr] = event.detail
-    console.log(data)
-    $('.parse-items').replaceWith(data.content)
-  })
+function initTestParse() {
+  $('.test-parse-js').on("click", function(event) {
+    $.ajax({
+      url: event.target.dataset.url,
+      method: "GET",
+      dataType: "json",
+      success: function (data) {
+        $('.left-column').append(data.content);
+      }
+    })
+  });
 }
 
 function initStarEvent(){
-  $('.star-js').click((e) => {
-    pi = $(e.target).closest('.parse-item');
-    parseItemId = $(pi).data("id");
+  $('.container').on('click', '.star-js', (e) => {
+    const pi = $(e.target).closest('.parse-item');
+    const parseItemId = $(pi).data("id");
+    const siteId = $(pi).data("site-id");
     $.ajax({
-      method: 'POST',
-      url: `parse_items/${parseItemId}/chosen`,
+      method: 'PATCH',
+      url: `sites/${siteId}/parse_items/${parseItemId}/chosen`,
       dataType: 'json',
-      success: function(data){
-        parse_item = $(`.parse-item[data-id=${data.id}] .parse-item__status`);
-        star = $(parse_item).find('.star-js');
-        console.log(data)
-        if (data.chosen) {
-          star.addClass('.star-js_chosen');
+      success: function () {
+        let star = $(pi).find('.star-js');
+        if (star.hasClass('fa-star_chosen')) {
+          star.removeClass('fa-star_chosen');
         }
         else {
-          star.removeClass('.star-js_chosen');
+          star.addClass('fa-star_chosen');
         }
       }
     });
@@ -155,45 +117,61 @@ function initTariffBuyEvent() {
   });
 }
 
-function initUpload() {
-  if (document.querySelector('.custom-file-input'))
-    document.querySelector('.custom-file-input').addEventListener("change", function() {
-      this.nextElementSibling.innerText = this.files[0].name;
-      readUrl(this);
-    })
+function initDatePicker() {
+  $('#datepicker').datepicker({
+    onSelect: function(formattedData, date, inst) {
+      $('.search-form').change();
+    }
+  });
 }
 
-function readUrl(input) {
-  if (input.files && input.files[0]) {
-    var reader = new FileReader();
-
-    reader.onload = function(e) {
-      $('.current-image').hide();
-      console.log(e.target.result);
-      $('.file-upload-image').attr('src', e.target.result);
-    };
-
-    reader.readAsDataURL(input.files[0]);
-  }
+function htmlToElement(html) {
+  var template = document.createElement('template');
+  template.innerHTML = html;
+  return template.content.firstChild;
 }
 
-initEvents = function() {
+function initShowMore() {
+  $(".container").on("click", ".btn-show-more", function () {
+    var btn = this;
+    var data = searchForm.getSearchFormData();
+    data["page"] = this.dataset.page;
+    $.ajax({
+      method: "GET",
+      dataType: 'json',
+      url: "/",
+      data: data,
+      success: function (data) {
+        var container = document.querySelector('.container');
+        $(btn.parentElement).remove();
+        container.appendChild(htmlToElement(data.content));
+      }
+    });
+  });
+}
+
+function initCocoon() {
+  $('.add_fields').data("association-insertion-node", '.table.parse_fields tbody');
+}
+
+var initEvents = function() {
   initEventParseItem();
   initEventButtonUp();
   initPopper();
   initTestParse();
-  initSearchForm();
+  searchForm.initSearchForm();
+  searchForm.initOpenSeachForm();
   initStarEvent();
   initTariffBuyEvent();
-  initUpload();
-  // initSubmitStripe();
-
+  upload.initUpload();
+  initDatePicker();
+  initShowMore();
+  initCocoon();
   setTimeout(() => {
-    $('.alert').fadeOut("slow");
+    $('.alert, .notice').fadeOut("slow");
   }, 4000);
 }
-
-$(document).ready(initEvents);
+// $(document).ready(initEvents);
 $(document).on("turbolinks:load", initEvents);
 
 

@@ -5,3 +5,7 @@ en:
         title: "Stripe"
         menu: "Stripe"
         breadcrumb: "Stripe"
+      statistics: 
+        menu: "Statistics"
+        title: "Statistics"
+        breadcrumb: "Statistics"

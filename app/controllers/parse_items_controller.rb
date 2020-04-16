@@ -1,11 +1,13 @@
 class ParseItemsController < ApplicationController
+  before_action :set_site, :set_parse_item
+  
   def change_status
-    pi = ParseItem.find(params[:id])
-    pi.update(status: :viewed)
-    respond_to do |format|
-      format.json{
-        render json: { id: pi.id, count_new_items: current_user.new_items.count }, status: 200
-      }
+    if @parse_item.update(status: :viewed)
+      respond_to do |format|
+        format.json{
+          render json: {}, status: :no_content
+        }
+      end
     end
   end
 
@@ -18,16 +20,24 @@ class ParseItemsController < ApplicationController
   end
 
   def chosen
-    pi = ParseItem.find(params[:id])
-    pi.update(chosen: !pi.chosen)
-    respond_to do |format|
-      format.json{
-        render json: { id: pi.id, chosen: pi.chosen }, status: 200
-      }
+    if @parse_item.update(chosen: !@parse_item.chosen)
+      respond_to do |format|
+        format.json{
+          render json: {}, status: :no_content
+        }
+      end
     end
   end
 
   private
+
+  def set_site
+    @site = current_user.sites.find(params[:site_id])
+  end
+
+  def set_parse_item
+    @parse_item = @site.parse_items.find(params[:id])
+  end
 
   def parse_item_params
     params.require(:parse_item).permit(:data, :status, :chosen, :tag_list)

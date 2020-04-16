@@ -6,6 +6,14 @@ class ApplicationController < ActionController::Base
     redirect_to main_app.root_path, alert: exception.message
   end
 
+  rescue_from ActiveRecord::RecordNotFound do |exception|
+    respond_to do |format|
+      format.js { render js: "", status: :not_found }
+      format.json { render json: { error: "Record not found"}, status: :not_found }
+      format.html { render file: "#{Rails.root}/public/404", layout: false, status: :not_found }
+    end
+  end
+
   protected
 
   def cofigure_permitted_parameters

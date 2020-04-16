@@ -10,14 +10,17 @@ gem 'devise'
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'bootstrap', '~> 4.4.1'
 gem 'cancancan'
+gem 'chartkick'
 gem 'font-awesome-sass', '~> 5.12.0'
 gem 'haml-rails', '~> 2.0'
 gem 'money-rails', '~>1.12'
+gem 'newrelic_rpm'
 gem 'rails', '~> 6.0.2', '>= 6.0.2.1'
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma', '~> 4.1'
 gem 'sass-rails', '>= 6'
-gem 'sidekiq'
+gem "sentry-raven"
+gem 'sidekiq', '5.2'
 gem 'sprockets-rails', :require => 'sprockets/railtie'
 gem 'stripe'
 gem 'webpacker', '~> 4.0'
@@ -52,6 +55,8 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'guard-rails', require: false
   gem 'guard-livereload', '~> 2.5', require: false
+  gem 'guard-rspec', require: false
+  gem 'capistrano-local-precompile', '~> 1.2.0', require: false
 end
 
 group :test do

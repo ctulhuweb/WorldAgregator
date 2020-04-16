@@ -1,34 +1,22 @@
 require 'stripe'
 class PaymentSessionsController < ApplicationController
 
-  def test
-    Stripe.api_key = Rails.application.credentials.secret_key_stripe
-    intent = Stripe::PaymentIntent.create({
-      amount: 1099,
-      currency: 'usd',
-    })
-    cookies[:client_secret] = intent.client_secret
-    respond_to do |format|
-      format.json {
-        render json: { client_key: intent }, status: :ok
-      }
-    end
-  end
-
   def checkout_session
-    Stripe.api_key = Rails.application.credentials.secret_key_stripe
+    choosen_tariff = Tariff.find_by_title(params[:tariff_title])
+    success_url = "http://#{Rails.application.config.app_config.url}/payment_sessions/success?session_id={CHECKOUT_SESSION_ID}"
+    cancel_url = "http://#{Rails.application.config.app_config.url}/payment_sessions/cancel"
     session = Stripe::Checkout::Session.create(
-      customer_email: "ctulhuweb@gmail.com",
+      customer_email: current_user.email,
       payment_method_types: ['card'],
       subscription_data: {
         items: [{
-          plan: 'plan_GsNxbfaeGzNGgO',
+          plan: choosen_tariff.plan_stripe_id,
         }],
       },
-      success_url: 'http://da7e26c1.ngrok.io/payment_sessions/success?session_id={CHECKOUT_SESSION_ID}',
-      cancel_url: 'http://da7e26c1.ngrok.io/payment_sessions/cancel',
+      success_url: success_url,
+      cancel_url: cancel_url,
     )
-    choosen_tariff = Tariff.find_by_title(params[:tariff_title])
+    
     Order.create(user: current_user, tariff: choosen_tariff, status: :wait, checkout_session_id: session.id)
     respond_to do |format|
       format.json {
@@ -38,15 +26,16 @@ class PaymentSessionsController < ApplicationController
   end
 
   def success
-    order = Order.where(checkout_session_id: params[:session_id]).first
-    order.update_attributes(status: :success)
+    if params[:session_id].present?
+      order = Order.where(checkout_session_id: params[:session_id]).first 
+      order.update_attributes(status: :active)
+    end
   end
 
   def cancel
-    p "ITS CANCEL"
-  end
-
-  def payment
-
+    if params[:session_id].present?
+      order = Order.where(checkout_session_id: params[:session_id]).first
+      order.update(status: :cancel)
+    end
   end
 end

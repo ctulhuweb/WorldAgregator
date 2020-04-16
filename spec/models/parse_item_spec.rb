@@ -1,22 +1,14 @@
 require "rails_helper"
 
 RSpec.describe ParseItem, type: :model do
+  include_examples "#paginate"
   context "is invalid" do
     before(:each) do
       @parse_item = build_stubbed(:parse_item)
     end
 
-    it "without a data" do
-      @parse_item.data = {}
-      @parse_item.valid?
-      expect(@parse_item.errors[:data]).to include("can't be blank") 
-    end
-
-    it "without a status" do
-      @parse_item.status = nil
-      @parse_item.valid?
-      expect(@parse_item.errors[:status]).to include("can't be blank")
-    end
+    it_behaves_like "a model presence validation for", "data"  
+    it_behaves_like "a model presence validation for", "status"
 
     it "without a site" do
       @parse_item.site = nil
@@ -31,16 +23,29 @@ RSpec.describe ParseItem, type: :model do
     end
   end
 
-  describe "search" do
+  describe "scopes" do
     before(:each) do
-      create_list(:parse_item, 5)
+      @count_chosen_parse_items = 5
+      @parse_items_today = 7
+      create_list(:parse_item, @count_chosen_parse_items, chosen: true)
       create(:parse_item, data: {Title: "vassaaa", Description: "watsuppp?"})
       create(:parse_item, data: {Title: "vassaaa brazza", Description: "watsuppp?"})
     end
 
-    it "return parse items by string" do
-      expect(ParseItem.search("vassa").count).to eq (2)
+    it "#title" do
+      expect(ParseItem.title("vassa").count).to eq (2)
     end
 
+    it "#chosen" do
+      expect(ParseItem.chosen.count).to eq(@count_chosen_parse_items)
+    end
+
+    it "#find_by_created_day" do
+      expect(ParseItem.find_by_created_day(Date.current).count).to eq(@parse_items_today)
+    end
+  end
+
+  describe 'Associations' do
+    it_behaves_like "has a association", :site, :belongs_to
   end
 end

@@ -6,12 +6,20 @@ describe "Home management", type: :request do
     sign_in @user
   end
 
-  describe "#search" do
-    it "return success" do
-      get search_path, params: { search: "vasa?" , format: :json} 
+  describe "#index" do
+    before(:each) do
+      @search_params = { title: "vasa?", created_at: Date.current.strftime("%d.%m.%y"), status: "new", chosen: true }
+    end
+
+    it "return json format" do
+      get root_path, params: { search: @search_params , format: :json }
+      expect(JSON.parse(response.body)["content"]).to be_present
+      expect(response).to have_http_status(200)
+    end
+
+    it "return html format" do
+      get root_path
       expect(response).to have_http_status(200)
     end
   end
-
-
 end

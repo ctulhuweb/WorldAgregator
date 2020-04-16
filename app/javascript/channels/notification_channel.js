@@ -1,27 +1,22 @@
-import consumer from "./consumer"
+import consumer from "./consumer";
+import Bell from '../packs/bell';
 
 function wrapParseBlock(data){
-  let col = document.createElement("div")
-  col.classList.add("col-md-6")
-  col.classList.add("col-lg-6")
-  col.classList.add("col-xl-4")
-  col.innerHTML = data.content
-  console.log(data)
-  let row  = $(".parse-items")
-  $(col).fadeOut()
-  $(row).prepend(col)
-  $(col).fadeIn()
-}
-
-function bellOn(){
-  let bell = document.querySelector('.fa-bell')
-  bell.classList.remove("text-secondary")
-  bell.classList.add("text-warning")
+  let col = document.createElement("div");
+  col.classList.add("col-md-6");
+  col.classList.add("col-lg-6");
+  col.classList.add("col-xl-4");
+  col.innerHTML = data.content;
+  console.log(data);
+  let row = $(".parse-items");
+  $(col).fadeOut();
+  $(row).prepend(col);
+  $(col).fadeIn();
 }
 
 consumer.subscriptions.create({ channel: "NotificationChannel", room: "batya room"}, {
   connected() {
-    console.log("Connected to channel")
+    console.debug("Connected to channel");
   },
 
   disconnected() {
@@ -29,7 +24,9 @@ consumer.subscriptions.create({ channel: "NotificationChannel", room: "batya roo
   },
 
   received(data) {
-    wrapParseBlock(data)
-    bellOn()
+    wrapParseBlock(data);
+    let bell = new Bell();
+    bell.increase();
+    bell.update();
   }
 });

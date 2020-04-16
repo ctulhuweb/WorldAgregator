@@ -1,4 +1,3 @@
-console.log("hey again");
 window.onload = function() {
   initButtonEvents();
 }

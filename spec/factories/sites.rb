@@ -11,5 +11,17 @@ FactoryBot.define do
         create_list(:parse_item, 2, site: site)
       end
     end
+
+    trait :real do
+      name { "Real" }
+      url { "https://krsk.besposrednika.ru/" }
+      main_selector { ".sEnLiCell" }
+      active { true }
+
+      after(:create) do |site|
+        create(:parse_field, site: site, name: "Date", selector: ".sEnLiDate")
+        create(:parse_field, site: site, name: "Title", selector: ".sEnLiTitle")
+      end
+    end
   end
 end
