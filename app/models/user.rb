@@ -1,6 +1,6 @@
 class User < ApplicationRecord
-  has_many :sites
   has_many :orders
+  has_many :aggregators, dependent: :destroy
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
@@ -10,7 +10,7 @@ class User < ApplicationRecord
   has_one_attached :avatar
 
   def has_new_items?
-    ParseItem.joins(site: :user)
+    ParseItem.joins(site: [aggregator: :user])
              .where(users: { id: id })
              .any? { |i| i.status_new? }
   end

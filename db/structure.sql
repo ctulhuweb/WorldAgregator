@@ -30,7 +30,8 @@ COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 CREATE TYPE public.order_status AS ENUM (
     'wait',
     'cancel',
-    'success'
+    'success',
+    'active'
 );
 
 
@@ -126,7 +127,8 @@ CREATE TABLE public.aggregators (
     title character varying,
     active boolean,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    user_id bigint NOT NULL
 );
 
 
@@ -205,7 +207,8 @@ CREATE TABLE public.parse_fields (
     selector character varying,
     site_id bigint,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    field_type character varying DEFAULT 'custom'::character varying
 );
 
 
@@ -282,8 +285,8 @@ CREATE TABLE public.sites (
     updated_at timestamp(6) without time zone NOT NULL,
     url character varying DEFAULT ''::character varying,
     main_selector character varying,
-    user_id bigint,
-    active boolean DEFAULT false NOT NULL
+    active boolean DEFAULT false NOT NULL,
+    aggregator_id bigint
 );
 
 
@@ -651,6 +654,13 @@ CREATE UNIQUE INDEX index_active_storage_blobs_on_key ON public.active_storage_b
 
 
 --
+-- Name: index_aggregators_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_aggregators_on_user_id ON public.aggregators USING btree (user_id);
+
+
+--
 -- Name: index_orders_on_tariff_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -662,6 +672,13 @@ CREATE INDEX index_orders_on_tariff_id ON public.orders USING btree (tariff_id);
 --
 
 CREATE INDEX index_orders_on_user_id ON public.orders USING btree (user_id);
+
+
+--
+-- Name: index_parse_fields_on_field_type; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_parse_fields_on_field_type ON public.parse_fields USING btree (field_type);
 
 
 --
@@ -679,10 +696,10 @@ CREATE INDEX index_parse_items_on_site_id ON public.parse_items USING btree (sit
 
 
 --
--- Name: index_sites_on_user_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_sites_on_aggregator_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_sites_on_user_id ON public.sites USING btree (user_id);
+CREATE INDEX index_sites_on_aggregator_id ON public.sites USING btree (aggregator_id);
 
 
 --
@@ -770,6 +787,14 @@ CREATE INDEX taggings_taggable_context_idx ON public.taggings USING btree (tagga
 
 
 --
+-- Name: sites fk_rails_314619bbe7; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.sites
+    ADD CONSTRAINT fk_rails_314619bbe7 FOREIGN KEY (aggregator_id) REFERENCES public.aggregators(id);
+
+
+--
 -- Name: parse_items fk_rails_993a52011a; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -783,6 +808,14 @@ ALTER TABLE ONLY public.parse_items
 
 ALTER TABLE ONLY public.taggings
     ADD CONSTRAINT fk_rails_9fcd2e236b FOREIGN KEY (tag_id) REFERENCES public.tags(id);
+
+
+--
+-- Name: aggregators fk_rails_b35e002284; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.aggregators
+    ADD CONSTRAINT fk_rails_b35e002284 FOREIGN KEY (user_id) REFERENCES public.users(id);
 
 
 --
@@ -827,6 +860,11 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200311042325'),
 ('20200313092424'),
 ('20200319081351'),
-('20200325053430');
+('20200325053430'),
+('20200403091538'),
+('20200409095143'),
+('20200416074427'),
+('20200416074702'),
+('20200416081133');
 
 

@@ -1,7 +1,7 @@
 class Site < ApplicationRecord
   has_many :parse_fields, dependent: :destroy
-  has_many :parse_items, foreign_key: "site_id"
-  belongs_to :user
+  has_many :parse_items, dependent: :destroy, foreign_key: "site_id"
+  belongs_to :aggregator
 
   validates :name, presence: true
   validates :url, presence: true,
