@@ -1,0 +1,14 @@
+.aggregator {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+
+  &__image img {
+    max-width: 100%;
+    // background: url("ag_default.png");
+  }
+
+  &__last-update {
+    font-size: 14px;
+  }
+}

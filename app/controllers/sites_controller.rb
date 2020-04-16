@@ -1,12 +1,13 @@
 class SitesController < ApplicationController
+  before_action :set_aggregator, only: [:new, :index, :create]
   before_action :set_site, except: [:new, :index, :create]
   
   def index
-    @sites = current_user.sites.order(:name)
+    @sites = @ag.sites.order(:name)
   end
 
   def new
-    @site = Site.new
+    @site = @ag.sites.build
   end
 
   def edit
@@ -28,7 +29,7 @@ class SitesController < ApplicationController
   end
 
   def create
-    @site = current_user.sites.build(site_params)
+    @site = @ag.sites.build(site_params)
     respond_to do |format|
       if @site.save
         format.js { redirect_to action: 'index', notice: "Site successfuly created." }
@@ -82,7 +83,12 @@ class SitesController < ApplicationController
   private
 
   def set_site
-    @site = current_user.sites.find(params[:id])
+    site = Site.find(params[:id])
+    @site = site if current_user.aggregators.pluck(:id).include?(site.aggregator_id)
+  end
+
+  def set_aggregator
+    @ag = current_user.aggregators.find(params[:aggregator_id])
   end
 
   def site_params

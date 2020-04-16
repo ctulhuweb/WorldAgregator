@@ -1,0 +1,9 @@
+.col-3
+  %a.aggregator.card{href: "#{aggregator_sites_path(ag)}" }
+    .aggregator__image.card-img-top
+      = image_tag("ag_default.png")
+    .aggregator__body.card-body
+      .aggregator__title
+        = ag.title
+      .aggregator__last-update
+        = ag.updated_at

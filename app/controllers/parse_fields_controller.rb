@@ -45,7 +45,8 @@ class ParseFieldsController < ApplicationController
   end
 
   def get_site
-    @site = current_user.sites.find(params[:site_id])
+    site = Site.find(params[:site_id])
+    @site = site if current_user.aggregators.pluck(:id).include?(site.aggregator_id)
   end
 
 end

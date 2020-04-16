@@ -1,7 +1,12 @@
 Rails.application.routes.draw do
   devise_for :users
   root to: "home#index"
-  resources :sites do 
+
+  resources :aggregators do
+    resources :sites, only: [:index, :new, :create]
+  end
+
+  resources :sites, only: [:show, :edit, :update, :destroy] do 
     member do
       get :test_parse
       patch :change_status

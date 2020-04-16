@@ -3,7 +3,8 @@ require "rails_helper"
 RSpec.describe "ParseFields", type: :request do
   before(:each) do
     @user = create(:user)
-    @site = create(:site, user: @user)
+    @ag = create(:aggregator, user: @user)
+    @site = create(:site, aggregator: @ag)
     sign_in @user
   end
 

@@ -3,20 +3,21 @@ require "rails_helper"
 RSpec.describe "Sites manegement", type: :request do
   before(:each) do
     @user = create(:user)
-    @site = create(:site, user: @user)
+    @ag = create(:aggregator, user: @user)
+    @site = create(:site, aggregator: @ag)
     sign_in @user
   end
 
   describe '#index' do
     it do
-      get sites_path
+      get aggregator_sites_path(@ag)
       expect(response).to have_http_status(:success)
     end
   end
 
   describe '#new' do
     it do
-      get new_site_path
+      get new_aggregator_site_path(@ag)
       expect(response).to have_http_status(:success)
     end  
   end
@@ -58,7 +59,7 @@ RSpec.describe "Sites manegement", type: :request do
     let!(:attributes) { attributes_for(:site)}
     it "creates a Site and redirect to sites" do
       expect { 
-        post sites_path, params: { site: attributes, format: :js }
+        post aggregator_sites_path(@ag), params: { site: attributes, format: :js }
       }.to change(@user.sites, :count).by(1) 
       expect(response).to have_http_status(302)
     end
