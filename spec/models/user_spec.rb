@@ -42,7 +42,7 @@ RSpec.describe User, type: :model do
   describe "Associations" do
     subject { build(:user) }
     it "has many sites" do
-      assc = described_class.reflect_on_association(:sites)
+      assc = described_class.reflect_on_association(:aggregators)
       expect(assc.macro).to eq :has_many
     end
   end
@@ -50,7 +50,8 @@ RSpec.describe User, type: :model do
   describe ".has_new_items?" do
     it "return true if any parse item has status 'new'" do
       user = create(:user)
-      sites = create_list(:site, 2, :with_new_parse_items, user: user)
+      ag = create(:aggregator, user: user)
+      sites = create_list(:site, 2, :with_new_parse_items, aggregator: ag)
       expect(user.has_new_items?).to eq true
     end
 

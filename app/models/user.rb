@@ -16,6 +16,6 @@ class User < ApplicationRecord
   end
   
   def new_items
-    ParseItem.joins(site: :user).where(users: {id: id}).status_new
+    ParseItem.joins(site: [aggregator: :user]).where(users: {id: id}).status_new
   end
 end

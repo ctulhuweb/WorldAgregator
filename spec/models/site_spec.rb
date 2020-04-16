@@ -31,10 +31,10 @@ RSpec.describe Site, type: :model do
         expect(@site.errors[:main_selector]).to include("can't be blank")
       end
 
-      it "without a user" do
-        @site.user = nil
+      it "without a aggregator" do
+        @site.aggregator = nil
         @site.valid?
-        expect(@site.errors[:user].size).to eq(1)
+        expect(@site.errors[:aggregator].size).to eq(1)
       end
 
     end
