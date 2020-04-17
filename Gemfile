@@ -6,7 +6,7 @@ ruby '2.7.0'
 gem 'acts-as-taggable-on', '~> 6.0'
 gem 'nokogiri'
 gem 'devise'
-#gem "cocoon"
+gem "cocoon"
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'bootstrap', '~> 4.4.1'
 gem 'cancancan'

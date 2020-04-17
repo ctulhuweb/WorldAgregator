@@ -14,10 +14,10 @@ class SitesController < ApplicationController
   end
 
   def update
-    @site = current_user.sites.find(params[:id])
+    raise ActiveRecord::RecordNotFound if @site.nil?
     respond_to do |format|
       if @site.update(site_params)
-        format.js { redirect_to action: 'index', notice: "Site successfuly updated." }
+        format.js { redirect_to action: 'show', notice: "Site successfuly updated." }
       else
         format.js {
           flash[:alert] = @site.errors.full_messages.first
@@ -44,6 +44,7 @@ class SitesController < ApplicationController
   end
 
   def show
+    raise ActiveRecord::RecordNotFound if @site.nil?
   end
 
   def destroy

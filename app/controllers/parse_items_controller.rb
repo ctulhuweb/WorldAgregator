@@ -32,7 +32,8 @@ class ParseItemsController < ApplicationController
   private
 
   def set_site
-    @site = current_user.sites.find(params[:site_id])
+    site = Site.find(params[:site_id])
+    @site = site if current_user.aggregators.pluck(:id).include?(site.aggregator_id)
   end
 
   def set_parse_item

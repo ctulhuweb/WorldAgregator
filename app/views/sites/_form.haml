@@ -1,6 +1,7 @@
 .row
   .col-8.offset-2
-    = form_with model: @site do |f|
+    - path = aggregator_sites_path(@ag) if @ag.present?
+    = form_with model: @site, url: path do |f|
       .form-group
         .row
           .col

@@ -42,7 +42,8 @@ RSpec.describe 'Home', type: :system, js: true do
   describe 'search form' do
     before(:each) do
       sign_in user
-      site = create(:site, user: user)
+      ag = create(:aggregator, user: user)
+      site = create(:site, aggregator: ag)
       create(:parse_item, site: site, data: {'Title': "what we want found"}, chosen: true)
       pi = create(:parse_item, :yesterday, site: site, data: {'Title': "another one"}, chosen: true, status: "viewed")
       create(:parse_item, :yesterday, site: site, data: {'Title': "one more another one"}, chosen: true, status: "viewed")
@@ -117,8 +118,8 @@ RSpec.describe 'Home', type: :system, js: true do
     end
 
     it "Nav links become active when user moves on pages" do
-      visit sites_path
-      expect(page.find(".active")).to have_content('Sites')
+      visit aggregators_path
+      expect(page.find(".active")).to have_content('Aggregators')
       visit tariffs_path
       expect(page.find(".active")).to have_content('Tariffs')
       visit root_path

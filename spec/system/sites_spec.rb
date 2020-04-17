@@ -3,13 +3,15 @@ require "rails_helper"
 RSpec.describe "Sites managemet", type: :system, js: true do
   before(:each) do
     @user = create(:user)
+    @ag = create(:aggregator, user: @user)
     sign_in @user
   end
 
   scenario "create" do
-    site = build(:site, user: @user)
+    site = build(:site, aggregator: @ag)
     visit root_path
-    click_link "Sites"
+    click_link "Aggregator"
+    find(".aggregator").click
     click_link "Add Site"
     within("form") do
       fill_in "site_name", with: site.name
@@ -23,9 +25,9 @@ RSpec.describe "Sites managemet", type: :system, js: true do
   end
 
   scenario "edit" do
-    site = create(:site, user: @user)
-    new_site = build(:site, user: @user)
-    visit sites_path
+    site = create(:site, aggregator: @ag)
+    new_site = build(:site, aggregator: @ag)
+    visit aggregator_sites_path(@ag)
     click_link "Edit"
     within("form") do
       fill_in "site_name", with: new_site.name
@@ -39,16 +41,16 @@ RSpec.describe "Sites managemet", type: :system, js: true do
   end
 
   scenario "delete" do
-    site = create(:site, user: @user)
-    visit sites_path
+    site = create(:site, aggregator: @ag)
+    visit aggregator_sites_path(@ag)
     click_link "Delete"
     expect(page).not_to have_content(site.name)
     expect(page).not_to have_selector("tr", count: 2)
   end
 
   scenario "change status active" do
-    site = create(:site, user: @user)
-    visit sites_path
+    site = create(:site, aggregator: @ag)
+    visit aggregator_sites_path(@ag)
     expect(page).to have_selector(".fa-ban")
     click_link "Setting"
     click_button "Enable"
@@ -57,19 +59,19 @@ RSpec.describe "Sites managemet", type: :system, js: true do
     click_button "Disable"
     expect(card).to have_content("Status: Not active")
     click_button "Enable"
-    visit sites_path
+    visit aggregator_sites_path(@ag)
     expect(page).to have_selector(".fa-check")
   end
 
   scenario "test parse" do
-    site = create(:site, :real, user: @user)
+    site = create(:site, :real, aggregator: @ag)
     visit site_path(site)
     find(".test-parse-js", text: "Test parse").click
     expect(page).to have_selector(".parse-item")
   end
 
   describe 'Parse field actions' do
-    let!(:site) { create(:site, user: @user) }
+    let!(:site) { create(:site, aggregator: @ag) }
 
     scenario "create parse field" do
       parse_field = build(:parse_field)

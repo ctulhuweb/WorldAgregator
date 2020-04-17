@@ -60,14 +60,14 @@ RSpec.describe "Sites manegement", type: :request do
     it "creates a Site and redirect to sites" do
       expect { 
         post aggregator_sites_path(@ag), params: { site: attributes, format: :js }
-      }.to change(@user.sites, :count).by(1) 
+      }.to change(@ag.sites, :count).by(1) 
       expect(response).to have_http_status(302)
     end
 
     context "invalid attributes" do
       let!(:invalid_attributes) { attributes_for(:site, url: "") }
       it "return error" do
-        post sites_path, params: { site: invalid_attributes, format: :js }
+        post aggregator_sites_path(@ag), params: { site: invalid_attributes, format: :js }
         expect(response).to have_http_status(422)
       end
     end
@@ -96,7 +96,7 @@ RSpec.describe "Sites manegement", type: :request do
   describe '#test_parse' do
     it "parse one item from site" do
       VCR.use_cassette("parser/get_data") do
-        real_site = create(:site, :real, user: @user)
+        real_site = create(:site, :real, aggregator: @ag)
         get test_parse_site_path(real_site), params: { format: :json }
         expect(response.status).to eq(200)
       end

@@ -28,6 +28,7 @@ class Parser
     rescue => error
       @logger.debug(site.info)
       @logger.debug(error)
+      nil
     end
 
     def fetch(block, parse_fields)

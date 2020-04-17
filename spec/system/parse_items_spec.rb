@@ -4,7 +4,8 @@ RSpec.describe 'Parse items', type: :system, js: true do
   before(:each) do
     user = create(:user)
     sign_in user
-    @site = create(:site, :with_two_parse_items, user: user)
+    @ag = create(:aggregator, user: user)
+    @site = create(:site, :with_two_parse_items, aggregator: @ag)
     visit root_path
   end
   
