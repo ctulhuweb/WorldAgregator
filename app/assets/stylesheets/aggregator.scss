@@ -12,3 +12,23 @@
     font-size: 14px;
   }
 }
+
+.link-add{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 25vh;
+  border-style: dashed !important;
+  transition: all 0.3s ease-in-out;
+  &:hover {
+    border-style: solid !important;
+    i {
+      opacity: 1;
+    }
+  }
+
+  i {
+    opacity: 0.5;
+    transition: all 0.3s ease-in-out;
+  }
+}

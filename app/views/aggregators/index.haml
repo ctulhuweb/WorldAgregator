@@ -1,3 +1,8 @@
 .row.aggregators
   - @aggregators.each do |ag|
     = render partial: "aggregator", locals: { ag: ag }
+  .col-3
+    %a.link-add.border{href: "#{new_aggregator_path}"}
+      = icon("far", "plus-square", class: "fa-3x")
+        
+        
