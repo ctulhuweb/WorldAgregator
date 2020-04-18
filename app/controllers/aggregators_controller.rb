@@ -12,7 +12,7 @@ class AggregatorsController < ApplicationController
     respond_to do |format|
       if @ag.save
         format.js {
-          redirect_to "index", notice: "Aggregator created successfuly."
+          redirect_to aggregators_path, notice: "Aggregator created successfuly."
         }
       else
         format.js {
@@ -25,7 +25,7 @@ class AggregatorsController < ApplicationController
   end
 
   def edit
-
+    @aggregator = current_user.aggregators.find(params[:id])
   end
 
   def update
@@ -33,7 +33,7 @@ class AggregatorsController < ApplicationController
     respond_to do |format|
       if ag.update(aggregator_params)
         format.js {
-          redirect_to "index", notice: "Aggregator updated successfuly"
+          redirect_to aggregators_path, notice: "Aggregator updated successfuly"
         }
       else
         format.js {

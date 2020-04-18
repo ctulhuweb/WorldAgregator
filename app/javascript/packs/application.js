@@ -4,6 +4,6 @@ require("@rails/activestorage").start()
 require("channels")
 require("jquery")
 require("air-datepicker")
-require("packs/sites")
+require("packs/main")
 
 require("src/cocoon")

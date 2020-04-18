@@ -1,9 +1,15 @@
 .col-3
-  %a.aggregator.card{href: "#{aggregator_sites_path(ag)}" }
-    .aggregator__image.card-img-top
-      = image_tag("ag_default.png")
-    .aggregator__body.card-body
+  .aggregator.shadow.card{data: { id: "#{ag.id}"}, class: "mb-4" }
+    .aggregator__actions
+      = icon("fas", "pen-square", class: "action action_edit fa-2x")
+      = icon("far", "window-close", class: "action action_delete fa-2x")
+    .card-header.font-weight-bold
       .aggregator__title
         = ag.title
+    .aggregator__image.card-img-top
+      = image_tag("ag_default.png")  
+    .card-footer
       .aggregator__last-update
-        = ag.updated_at
+        %small.text-muted
+          = time_ago_in_words(ag.updated_at)
+    

@@ -1,6 +1,7 @@
 import Bell from './bell';
 import * as upload from './custom_file_input';
 import * as searchForm from './search_form';
+import Aggregator from './aggregator';
 
 var changeStatus = function (target) {
   const pi = $(target).closest('.parse-item');
@@ -170,6 +171,8 @@ var initEvents = function() {
   setTimeout(() => {
     $('.alert, .notice').fadeOut("slow");
   }, 4000);
+  let ag = new Aggregator();
+  ag.initEvents();
 }
 // $(document).ready(initEvents);
 $(document).on("turbolinks:load", initEvents);
