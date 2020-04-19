@@ -1,7 +1,7 @@
 
 .row
   .col-4.left-column
-    = render partial: "card-info", locals: { site: @site }
+    = render partial: "card-info", locals: { site: SiteDecorator.new(@site) }
   .col-8
     %table.table.table-hover
       %thead.thead-light

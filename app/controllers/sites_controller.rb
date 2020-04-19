@@ -76,7 +76,7 @@ class SitesController < ApplicationController
     if @site.update(active: !@site.active) 
       respond_to do |format|
         format.js {
-          render partial: "card-info-update", locals: { site: @site }, status: :ok
+          render partial: "card-info-update", locals: { site: SiteDecorator.new(@site) }, status: :ok
         }
       end
     end

@@ -26,13 +26,13 @@ RSpec.describe 'Aggregators Management', type: :system do
     expect(page).to have_content(@aggregator.title)
   end
 
-  scenario 'delete aggregator', js: true, focus: true do
+  scenario 'delete aggregator', js: true do
     find(".aggregator").hover
     find(".action_delete").click
     expect(page).not_to have_selector(".aggregator") 
   end
 
-  scenario 'edit aggregator', js: true, focus: true do
+  scenario 'edit aggregator', js: true do
     find(".aggregator").hover
     find(".action_edit").click
     within("form") do
