@@ -1,0 +1,2 @@
+- options = options_from_collection_for_select(current_user.aggregators, "id", "title")
+= select_tag "aggregator_id", options, class: "form-control aggr-selector", prompt: 'default'

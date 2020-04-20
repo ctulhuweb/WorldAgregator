@@ -127,4 +127,34 @@ RSpec.describe 'Home', type: :system, js: true do
     end
 
   end
+
+  describe 'select of aggregator' do
+    before(:each) do
+      sign_in user
+      @aggregators = create_list(:aggregator, 3, user: user)
+      create(:site, :with_two_parse_items, aggregator: @aggregators.last)
+      create(:site, :with_two_parse_items, aggregator: @aggregators.first)
+    end
+
+    scenario "simple select" do
+      visit root_path
+      select(@aggregators.last.title, from: "aggregator_id")
+      expect(page).to have_selector(".parse-item", count: 2)
+    end
+
+    scenario "with search form", focus: true do
+      visit root_path
+      select(@aggregators.last.title, from: "aggregator_id")
+      click_button(class: "btn-open-search")
+      within(".search-form") do
+        find(".custom-checkbox .custom-control-label").click
+      end
+      expect(page).not_to have_selector(".parse-item")
+      within(".search-form") do
+        find(".custom-checkbox .custom-control-label").click
+      end
+      expect(page).to have_selector(".parse-item", count: 2)
+    end
+
+  end
 end

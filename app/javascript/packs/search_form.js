@@ -1,15 +1,17 @@
 export function initSearchForm() {
-  $('.search-form').change(function (event) {
+  $('.search-form, .aggr-selector').change(function (event) {
+    let data = getSearchFormData();
+    data["aggregator_id"] = document.querySelector('.aggr-selector').value;
     $.ajax({
       method: "GET",
       dataType: 'json',
       url: "/",
-      data: getSearchFormData(),
+      data: data,
       success: function (data) {
         $('.parse-items').replaceWith(data.content)
       }
-    })
-  })
+    });
+  });
 }
 
 export function getSearchFormData() {

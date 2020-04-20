@@ -2,7 +2,8 @@ class HomeController < ApplicationController
   
   def index
     set_paginate_params
-    @parse_items = UserParseItems.call(current_user)
+
+    @parse_items = UserParseItems.call(current_user, params[:aggregator_id])
     @parse_items = SearchParseItems.call(@parse_items, search_params) if search_params.present?
     @total = @parse_items.count
     

@@ -17,6 +17,6 @@
         = avatar_block
       - else
         = link_to "Sign in", new_user_session_path, class: "nav-link btn btn-outline-primary"
-  - if action_name == "index" && controller_name == "home" 
+  - if action_name == "index" && controller_name == "home" && @parse_items.present?
     = button_tag(class: "btn-open-search btn btn-outline-primary mr-3 border-top-0 rounded-0") do
       = icon('fas', 'search')

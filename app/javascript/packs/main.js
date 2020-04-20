@@ -155,6 +155,9 @@ function initCocoon() {
   $('.add_fields').data("association-insertion-node", '.table.parse_fields tbody');
 }
 
+
+
+
 var initEvents = function() {
   initEventParseItem();
   initEventButtonUp();
