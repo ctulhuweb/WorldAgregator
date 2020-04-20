@@ -8,7 +8,8 @@
         .input-group-text
           = icon("far", "calendar-alt")
     .col
-      = f.collection_select :status, ParseItem.statuses.map { |c| [c.first, c.first] }, :first, :second, {}, { class: "custom-select" }
+      - options = ParseItem.statuses.map { |c| [c.first, c.first] }
+      = f.select :status, options_for_select(options), { prompt: "select" }, { class: "form-control" } 
     .col.d-flex.align-items-center
       .custom-control.custom-checkbox
         = f.check_box :chosen, { class: "custom-control-input", id: "defaultUnchecked" }, true, false
